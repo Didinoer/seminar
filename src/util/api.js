@@ -1,6 +1,6 @@
-const API_URL = "http://localhost:8000/";
+// const API_URL = "http://localhost:8000/";
 //const API_URL = "http://192.168.55.12:80/";
-//const API_URL = "https://inspirafest.id/server/";
+const API_URL = "https://inspirafest.id/server/";
 const bearerToken = "Bearer " + localStorage.getItem("token");
 
 export async function login(credentials) {

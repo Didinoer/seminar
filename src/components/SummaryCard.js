@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { red, blue, green, blueGrey, deepPurple } from '@mui/material/colors';
+import { red, blue, green, blueGrey, deepPurple, indigo, orange } from '@mui/material/colors';
 
 export default function SummaryCard({ label, count, color }) {
   const colorArray = {
@@ -10,6 +10,9 @@ export default function SummaryCard({ label, count, color }) {
     red: red[500],
     blueGrey: blueGrey[500],
     deepPurple: deepPurple[500],
+    deepBlue: indigo[900],
+    black: '#000000', 
+    orange: orange[500],
   };
 
   return (

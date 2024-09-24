@@ -49,16 +49,16 @@ export default function TicketPage(props) {
       label: "Semua",
     },
     {
-      code: "vip",
-      label: "Vip",
+      code: "General",
+      label: "General",
     },
     {
-      code: "onsite",
-      label: "Onsite (General)",
+      code: "Gold",
+      label: "Gold",
     },
     {
-      code: "online",
-      label: "Online",
+      code: "Platinum",
+      label: "Platinum",
     },
   ];
   const [jenisTicket, setJenisTicket] = useState(filterJenisTicket[0].code);

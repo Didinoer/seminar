@@ -22,6 +22,24 @@ export default function TicketTableSummary() {
   const [totalSudahScanOlehUser, setTotalSudahScanOlehUser] =
     useState(0);
 
+  const [totalTicketGeneral, setTotalTicketGeneral] = useState(0);
+  const [totalTicketGeneralBelumCheckIn, setTotalTicketGeneralBelumCheckIn] =
+  useState(0);
+  const [totalTicketGeneralSudahCheckIn, setTotalTicketGeneralSudahCheckIn] =
+    useState(0);
+
+  const [totalTicketGold, setTotalTicketGold] = useState(0);
+  const [totalTicketGoldBelumCheckIn, setTotalTicketGoldBelumCheckIn] =
+  useState(0);
+  const [totalTicketGoldSudahCheckIn, setTotalTicketGoldSudahCheckIn] =
+    useState(0);
+
+  const [totalTicketPlatinum, setTotalTicketPlatinum] = useState(0);
+  const [totalTicketPlatinumBelumCheckIn, setTotalTicketPlatinumBelumCheckIn] =
+  useState(0);
+  const [totalTicketPlatinumSudahCheckIn, setTotalTicketPlatinumSudahCheckIn] =
+      useState(0);
+
   const fetchAllTotal = async () => {
     const data = await getAllTicketSummaryTotal();
     return data;
@@ -38,6 +56,18 @@ export default function TicketTableSummary() {
         setTotalTicketOnlineBelumCheckIn(result.totalTicketOnlineBelumCheckIn);
         setTotalTicketOnlineSudahCheckIn(result.totalTicketOnlineSudahCheckIn);
         setTotalSudahScanOlehUser(result.totalSudahScanOlehUser);
+
+        setTotalTicketGeneral(result.totalTicketGeneral);
+        setTotalTicketGeneralBelumCheckIn(result.totalTicketGeneralBelumCheckIn);
+        setTotalTicketGeneralSudahCheckIn(result.totalTicketGeneralSudahCheckIn);
+
+        setTotalTicketGold(result.totalTicketGold);
+        setTotalTicketGoldBelumCheckIn(result.totalTicketGoldBelumCheckIn);
+        setTotalTicketGoldSudahCheckIn(result.totalTicketGoldSudahCheckIn);
+
+        setTotalTicketPlatinum(result.totalTicketPlatinum);
+        setTotalTicketPlatinumBelumCheckIn(result.totalTicketPlatinumBelumCheckIn);
+        setTotalTicketPlatinumSudahCheckIn(result.totalTicketPlatinumSudahCheckIn);
       })
       .catch((err) => {
         console.log(err);
@@ -65,20 +95,30 @@ export default function TicketTableSummary() {
               "&:last-child td, &:last-child th": { border: 0 },
             }}
           >
-            <TableCell>ONSITE</TableCell>
-            <TableCell>{totalTicketOnsite}</TableCell>
-            <TableCell>{totalTicketOnsiteSudahCheckIn}</TableCell>
-            <TableCell>{totalTicketOnsiteBelumCheckIn}</TableCell>
+            <TableCell>General</TableCell>
+            <TableCell>{totalTicketGeneral}</TableCell>
+            <TableCell>{totalTicketGeneralSudahCheckIn}</TableCell>
+            <TableCell>{totalTicketGeneralBelumCheckIn}</TableCell>
           </TableRow>
           <TableRow
             sx={{
               "&:last-child td, &:last-child th": { border: 0 },
             }}
           >
-            <TableCell>ONLINE</TableCell>
-            <TableCell>{totalTicketOnline}</TableCell>
-            <TableCell>{totalTicketOnlineSudahCheckIn}</TableCell>
-            <TableCell>{totalTicketOnlineBelumCheckIn}</TableCell>
+            <TableCell>Gold</TableCell>
+            <TableCell>{totalTicketGold}</TableCell>
+            <TableCell>{totalTicketGoldSudahCheckIn}</TableCell>
+            <TableCell>{totalTicketGoldBelumCheckIn}</TableCell>
+          </TableRow>
+          <TableRow
+            sx={{
+              "&:last-child td, &:last-child th": { border: 0 },
+            }}
+          >
+            <TableCell>Platinum</TableCell>
+            <TableCell>{totalTicketPlatinum}</TableCell>
+            <TableCell>{totalTicketPlatinumSudahCheckIn}</TableCell>
+            <TableCell>{totalTicketPlatinumBelumCheckIn}</TableCell>
           </TableRow>
           <TableRow
             sx={{

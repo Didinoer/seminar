@@ -31,6 +31,12 @@ function paymentStatusComponent(paymentStatus) {
         Pembayaran Dibatalkan
       </Typography>
     );
+  } else if (paymentStatus === "pendingdataif2024") {
+    return (
+      <Typography variant="button" color="orange" gutterBottom>
+        Not Complete
+      </Typography>
+    );
   } else {
     return (
       <Typography variant="button" color="primary" gutterBottom>
@@ -54,7 +60,8 @@ function countTicket(ticketData) {
   );
 
   if (onsiteTickets.length > 0) {
-    counterString += `${onsiteTickets.length} x ONSITE`;
+    // counterString += `${onsiteTickets.length} x ONSITE`;
+    counterString += `${onsiteTickets.length}`;
   }
   if (onsiteTickets.length > 0 && onlineTickets.length > 0) {
     counterString += ", ";
@@ -162,7 +169,9 @@ export default function Orders({ data, page, size }) {
                   {sortingComponent("name")}
                 </Box> */}
               </TableCell>
+              <TableCell>No HP</TableCell>
               <TableCell>ID Reference</TableCell>
+              <TableCell>Voucher Code</TableCell>
               <TableCell>Tanggal Daftar</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
@@ -174,7 +183,9 @@ export default function Orders({ data, page, size }) {
                 <TableRow key={row.id}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                   <TableCell>{row.customer.name}</TableCell>
+                  <TableCell>{row.customer.phone}</TableCell>
                   <TableCell>{row.invoice_code}</TableCell>
+                  <TableCell>{row.voucher_code}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
                   <TableCell>
                     {paymentStatusComponent(row.payment_status)}
@@ -321,10 +332,14 @@ export default function Orders({ data, page, size }) {
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                  {selectedData.source}
+                  {/* {selectedData.source} */}
+                  {/* {selectedData.source === 'LPAFF' ? 'JKT00001' : selectedData.source} */}
+                  {selectedData.source === 'LPAFF' ? 'JKT00001' :
+                    selectedData.source === 'DIRECT' ? 'WEBSITE' :
+                    selectedData.source}
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              {/* <Grid container spacing={2}>
                 <Grid item xs={4}>
                   Information
                 </Grid>
@@ -334,7 +349,7 @@ export default function Orders({ data, page, size }) {
                 <Grid item xs zeroMinWidth>
                   {selectedData.information}
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   Referral
@@ -385,7 +400,7 @@ export default function Orders({ data, page, size }) {
                     : "-"}
                 </Grid>
               </Grid>
-              { selectedData && selectedData.payment_status === 'paid' && (
+              {/* { selectedData && selectedData.payment_status === 'paid' && ( */}
               <Fragment>
                 <hr />
                 <Grid container spacing={2}>
@@ -445,11 +460,10 @@ export default function Orders({ data, page, size }) {
                           </Grid>
                           <Grid item xs zeroMinWidth>
                             {" "}
-                            {ticket.ticket_type === "onsite"
-                              ? "ONSITE"
-                              : "ONLINE"}
+                            {ticket.ticket_jenis === 'VIP' ? 'Gold' : ticket.ticket_jenis}
                           </Grid>
                         </Grid>
+                        { selectedData && selectedData.payment_status === 'paid' && (
                         <Grid container spacing={2} mb={1}>
                           <Grid item xs={4}>
                             Ticket Code
@@ -461,11 +475,12 @@ export default function Orders({ data, page, size }) {
                             {ticket.ticket_code}
                           </Grid>
                         </Grid>
+                        )}
                       </Fragment>
                     ))
                   : "Loading..."}
               </Fragment>
-              )}
+              {/* )} */}
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
                   <Box sx={{ display: "flex", justifyContent: "center" }}>

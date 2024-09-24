@@ -62,7 +62,14 @@ export default function LoginPage() {
         localStorage.setItem("token", result.token);
         localStorage.setItem("user", JSON.stringify(result.user));
         toast.success("Login Berhasil");
-        navigate("/orders", { replace: true });
+
+        if (result.user.role === "finance") {
+          navigate("/approval", { replace: true });
+        } else {
+          navigate("/orders", { replace: true });
+        }
+
+        // navigate("/orders", { replace: true });
         navigate(0);
       } catch (error) {
         toast.error(error.message);

@@ -38,11 +38,11 @@ function checkInStatusComponent(checkInObject) {
 
 function ticketTypeComponent(ticketType) {
   let fontColor = "primary";
-  if (ticketType === "onsite" || ticketType === "general") {
-    fontColor = "green";
-  } else if (ticketType === "vip"){
-    fontColor = "orange";
-  }
+  // if (ticketType === "platinum") {
+  //   fontColor = "grey";
+  // } else if (ticketType === "vip" || ticketType === "gold"){
+  //   fontColor = "orange";
+  // }
   
   return (
     <Typography variant="button" color={fontColor} gutterBottom>
@@ -171,7 +171,7 @@ export default function Tickets({ data, page, size, fetchData }) {
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                   <TableCell>{row.customer.name}</TableCell>
                   <TableCell>
-                    {ticketTypeComponent(row.tickets[0].ticket_type)}
+                    {ticketTypeComponent(row.tickets[0].ticket_jenis)}
                   </TableCell>
                   <TableCell>
                     {row.totalSudahCheckIn}/{row.totalTicket}

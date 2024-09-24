@@ -31,6 +31,7 @@ export default function DrawerItems() {
 
   return (
     <React.Fragment>
+      { session.role !== 'finance' && 
       <Link to={"/orders"} className="text-link">
         <ListItemButton selected={location.pathname === "/orders"}>
           <ListItemIcon>
@@ -39,6 +40,7 @@ export default function DrawerItems() {
           <ListItemText primary="Orders" />
         </ListItemButton>
       </Link>
+      }
       { (session.role  === 'finance' ||  session.role  === 'admin')  && 
       <Link to={"/approval"} className="text-link">
         <ListItemButton selected={location.pathname === "/approval"}>
@@ -49,6 +51,7 @@ export default function DrawerItems() {
         </ListItemButton>
       </Link>
        }
+      { (session.role  === 'admin' ||  session.role === 'officer')  && 
       <Link to={"/invitations"} className="text-link">
         <ListItemButton selected={location.pathname === "/invitation"}>
           <ListItemIcon>
@@ -57,6 +60,8 @@ export default function DrawerItems() {
           <ListItemText primary="Invitation" />
         </ListItemButton>
       </Link>
+      }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/tickets"} className="text-link">
         <ListItemButton selected={location.pathname === "/tickets"}>
           <ListItemIcon>
@@ -65,6 +70,8 @@ export default function DrawerItems() {
           <ListItemText primary="Tickets" />
         </ListItemButton>
       </Link>
+      }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/scanner"} className="text-link">
         <ListItemButton selected={location.pathname === "/scanner"}>
           <ListItemIcon>
@@ -73,6 +80,8 @@ export default function DrawerItems() {
           <ListItemText primary="Scanner" />
         </ListItemButton>
       </Link>
+      }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/history"} className="text-link">
         <ListItemButton selected={location.pathname === "/history"}>
           <ListItemIcon>
@@ -81,6 +90,8 @@ export default function DrawerItems() {
           <ListItemText primary="History" />
         </ListItemButton>
       </Link>
+      }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/partnerships"} className="text-link">
         <ListItemButton selected={location.pathname === "/partnerships"}>
           <ListItemIcon>
@@ -89,6 +100,8 @@ export default function DrawerItems() {
           <ListItemText primary="Partnership" />
         </ListItemButton>
       </Link>
+      }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/referral"} className="text-link">
         <ListItemButton selected={location.pathname === "/Referral"}>
           <ListItemIcon>
@@ -97,6 +110,8 @@ export default function DrawerItems() {
           <ListItemText primary="Referral" />
         </ListItemButton>
       </Link>
+      }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/notif"} className="text-link">
         <ListItemButton selected={location.pathname === "/Notif"}>
           <ListItemIcon>
@@ -105,6 +120,7 @@ export default function DrawerItems() {
           <ListItemText primary="Notif" />
         </ListItemButton>
       </Link>
+      }
     </React.Fragment>
   );
 }
