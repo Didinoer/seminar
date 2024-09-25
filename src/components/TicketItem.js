@@ -46,7 +46,7 @@ export default function TicketItem({value, checked, handleToggle, labelId}) {
             <ListItemText
               primary={
                 <Typography variant="button" display="block">
-                  {value.ticket_type} - {value.owner_name}
+                  {value.ticket_jenis === 'VIP' ? 'Gold' : value.ticket_jenis} - {value.owner_name}
                 </Typography>
               }
               secondary={<Fragment>{value.ticket_code}</Fragment>}

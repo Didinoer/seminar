@@ -57,9 +57,9 @@ function checkInStatusComponent(checkInStatus, checkInTime) {
 
 function ticketTypeComponent(ticketType) {
   let fontColor = "primary";
-  if (ticketType === "onsite") {
-    fontColor = "green";
-  } 
+  // if (ticketType === "onsite") {
+  //   fontColor = "green";
+  // } 
   // else {
     // return (
     //   <Typography variant="button" color="danger" gutterBottom>
@@ -170,7 +170,7 @@ export default function Tickets({ data, page, size, fetchData }) {
                 <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                 <TableCell>{row.ticket.owner_name}</TableCell>
                 <TableCell>{row.invoice_code}</TableCell>
-                <TableCell>{ticketTypeComponent(row.ticket.ticket_type)}</TableCell>
+                <TableCell>{ticketTypeComponent(row.ticket.ticket_jenis)}</TableCell>
                 <TableCell>{row.ticket_code}</TableCell>
                 <TableCell>
                   {checkInStatusComponent(row.status, row.createdAt)}
