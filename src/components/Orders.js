@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -17,31 +18,33 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatDate } from "../util/date";
 import { getTicketsByInvoiceCode } from "../util/api";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function paymentStatusComponent(paymentStatus) {
   if (paymentStatus === "paid") {
     return (
-      <Typography variant="button" color="green" gutterBottom>
-        Pembayaran Berhasil
-      </Typography>
+      <Chip label="Pembayaran Berhasil" sx={{ backgroundColor: 'rgb(76, 175, 80)', color: 'white' }}/>
     );
   } else if (paymentStatus === "expired") {
     return (
-      <Typography variant="button" color="red" gutterBottom>
-        Pembayaran Dibatalkan
-      </Typography>
+      <Chip label="Pembayaran Dibatalkan" sx={{ backgroundColor: 'rgb(244, 67, 54)', color: 'white' }} />
+      // <Typography variant="button" color="red" gutterBottom>
+      //   Pembayaran Dibatalkan
+      // </Typography>
     );
   } else if (paymentStatus === "pendingdataif2024") {
     return (
-      <Typography variant="button" color="orange" gutterBottom>
-        Not Complete
-      </Typography>
+      <Chip label="Not Complete" sx={{ backgroundColor: 'rgb(255, 152, 0)', color: 'white' }} />
+      // <Typography variant="button" color="orange" gutterBottom>
+      //   Not Complete
+      // </Typography>
     );
   } else {
     return (
-      <Typography variant="button" color="primary" gutterBottom>
-        Menunggu Pembayaran
-      </Typography>
+      <Chip label="Menunggu Pembayaran" sx={{ backgroundColor: 'rgb(96, 125, 139)', color: 'white' }} />
+      // <Typography variant="button" color="primary" gutterBottom>
+      //   Menunggu Pembayaran
+      // </Typography>
     );
   }
 }
@@ -144,6 +147,12 @@ export default function Orders({ data, page, size }) {
       });
   }
 
+  function handleWhatsAppMessage(phone) {
+    const message = encodeURIComponent("");
+    const whatsappLink = `https://wa.me/${phone}?text=${message}`;
+    window.open(whatsappLink, '_blank');
+  }
+
   useEffect(() => {
     setLoadTicket(true);
     fetchTickets();
@@ -183,7 +192,25 @@ export default function Orders({ data, page, size }) {
                 <TableRow key={row.id}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                   <TableCell>{row.customer.name}</TableCell>
-                  <TableCell>{row.customer.phone}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={
+                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                          <WhatsAppIcon sx={{ marginRight: 1 }} /> {/* Ikon WhatsApp */}
+                          {row.customer.phone}
+                        </span>
+                      }
+                      sx={{
+                        backgroundColor: '#25D366', // Warna hijau khas WhatsApp
+                        color: 'white', // Teks putih
+                        '&:hover': {
+                          backgroundColor: '#20b358', // Warna hijau lebih gelap saat hover
+                        },
+                        cursor: 'pointer', // Menunjukkan bahwa Chip dapat diklik
+                      }}
+                      onClick={() => handleWhatsAppMessage(row.customer.phone)} // Mengatur aksi saat Chip diklik
+                    />
+                  </TableCell>
                   <TableCell>{row.invoice_code}</TableCell>
                   <TableCell>{row.voucher_code}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
