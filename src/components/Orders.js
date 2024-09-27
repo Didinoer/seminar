@@ -28,23 +28,14 @@ function paymentStatusComponent(paymentStatus) {
   } else if (paymentStatus === "expired") {
     return (
       <Chip label="Pembayaran Dibatalkan" sx={{ backgroundColor: 'rgb(244, 67, 54)', color: 'white' }} />
-      // <Typography variant="button" color="red" gutterBottom>
-      //   Pembayaran Dibatalkan
-      // </Typography>
     );
   } else if (paymentStatus === "pendingdataif2024") {
     return (
       <Chip label="Not Complete" sx={{ backgroundColor: 'rgb(255, 152, 0)', color: 'white' }} />
-      // <Typography variant="button" color="orange" gutterBottom>
-      //   Not Complete
-      // </Typography>
     );
   } else {
     return (
       <Chip label="Menunggu Pembayaran" sx={{ backgroundColor: 'rgb(96, 125, 139)', color: 'white' }} />
-      // <Typography variant="button" color="primary" gutterBottom>
-      //   Menunggu Pembayaran
-      // </Typography>
     );
   }
 }
@@ -63,7 +54,6 @@ function countTicket(ticketData) {
   );
 
   if (onsiteTickets.length > 0) {
-    // counterString += `${onsiteTickets.length} x ONSITE`;
     counterString += `${onsiteTickets.length}`;
   }
   if (onsiteTickets.length > 0 && onlineTickets.length > 0) {
@@ -91,8 +81,6 @@ const style = {
 
 export default function Orders({ data, page, size }) {
   const [open, setOpen] = useState(false);
-  // const [sortBy, setSortBy] = useState("name");
-  // const [sortDir, setSortDir] = useState("asc");
   const [selectedData, setSelectedData] = useState();
   const [ticketData, setTicketData] = useState();
   const [loadTicket, setLoadTicket] = useState(false);
@@ -101,22 +89,6 @@ export default function Orders({ data, page, size }) {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
-
-  // const handleSorting = (columnName) => {
-  //   setSortBy(columnName);
-  //   setSortDir(sortDir == "asc" ? "desc" : "asc");
-  // };
-
-  // const sortingComponent = (columnName) => {
-  //   if (columnName === sortBy) {
-  //     if (sortDir === "asc") {
-  //       return <ArrowDropUpIcon />;
-  //     } else {
-  //       return <ArrowDropDownIcon />;
-  //     }
-  //   }
-  //   return;
-  // };
 
   const fetchAllTicketsByInvoiceCode = async () => {
     if (!selectedData) {
@@ -166,18 +138,7 @@ export default function Orders({ data, page, size }) {
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
-              <TableCell>
-                Nama
-                {/* <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>Nama</span>
-                  {sortingComponent("name")}
-                </Box> */}
-              </TableCell>
+              <TableCell>Nama</TableCell>
               <TableCell>No HP</TableCell>
               <TableCell>ID Reference</TableCell>
               <TableCell>Voucher Code</TableCell>
@@ -196,19 +157,19 @@ export default function Orders({ data, page, size }) {
                     <Chip
                       label={
                         <span style={{ display: 'flex', alignItems: 'center' }}>
-                          <WhatsAppIcon sx={{ marginRight: 1 }} /> {/* Ikon WhatsApp */}
+                          <WhatsAppIcon sx={{ marginRight: 1 }} />
                           {row.customer.phone}
                         </span>
                       }
                       sx={{
-                        backgroundColor: '#25D366', // Warna hijau khas WhatsApp
-                        color: 'white', // Teks putih
+                        backgroundColor: '#25D366',
+                        color: 'white',
                         '&:hover': {
-                          backgroundColor: '#20b358', // Warna hijau lebih gelap saat hover
+                          backgroundColor: '#20b358',
                         },
-                        cursor: 'pointer', // Menunjukkan bahwa Chip dapat diklik
+                        cursor: 'pointer',
                       }}
-                      onClick={() => handleWhatsAppMessage(row.customer.phone)} // Mengatur aksi saat Chip diklik
+                      onClick={() => handleWhatsAppMessage(row.customer.phone)}
                     />
                   </TableCell>
                   <TableCell>{row.invoice_code}</TableCell>
@@ -225,11 +186,6 @@ export default function Orders({ data, page, size }) {
                       >
                         Detail
                       </Button>
-                      {/* {row.payment_status === "paid" && (
-                      <Button variant="outlined" color="success">
-                        Check-In
-                      </Button>
-                    )} */}
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -239,7 +195,6 @@ export default function Orders({ data, page, size }) {
                 <TableCell colSpan={10}>
                   <Grid
                     container
-                    // my={2}
                   >
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -359,24 +314,11 @@ export default function Orders({ data, page, size }) {
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                  {/* {selectedData.source} */}
-                  {/* {selectedData.source === 'LPAFF' ? 'JKT00001' : selectedData.source} */}
                   {selectedData.source === 'LPAFF' ? 'JKT00001' :
                     selectedData.source === 'DIRECT' ? 'WEBSITE' :
                     selectedData.source}
                 </Grid>
               </Grid>
-              {/* <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  Information
-                </Grid>
-                <Grid item xs="auto">
-                  :
-                </Grid>
-                <Grid item xs zeroMinWidth>
-                  {selectedData.information}
-                </Grid>
-              </Grid> */}
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   Referral
@@ -427,7 +369,6 @@ export default function Orders({ data, page, size }) {
                     : "-"}
                 </Grid>
               </Grid>
-              {/* { selectedData && selectedData.payment_status === 'paid' && ( */}
               <Fragment>
                 <hr />
                 <Grid container spacing={2}>
@@ -513,8 +454,6 @@ export default function Orders({ data, page, size }) {
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <a
                       href={`https://inspirafest.id/e-ticket?referenceId=${selectedData.invoice_code}`}
-                      //href={`http://localhost/production/inspirafest/e-ticket?referenceId=${selectedData.invoice_code}`}
-
                       target="_blank"
                       style={{
                         textDecoration: "none",
