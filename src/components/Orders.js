@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -17,31 +18,24 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatDate } from "../util/date";
 import { getTicketsByInvoiceCode } from "../util/api";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function paymentStatusComponent(paymentStatus) {
   if (paymentStatus === "paid") {
     return (
-      <Typography variant="button" color="green" gutterBottom>
-        Pembayaran Berhasil
-      </Typography>
+      <Chip label="Pembayaran Berhasil" sx={{ backgroundColor: 'rgb(76, 175, 80)', color: 'white' }}/>
     );
   } else if (paymentStatus === "expired") {
     return (
-      <Typography variant="button" color="red" gutterBottom>
-        Pembayaran Dibatalkan
-      </Typography>
+      <Chip label="Pembayaran Dibatalkan" sx={{ backgroundColor: 'rgb(244, 67, 54)', color: 'white' }} />
     );
   } else if (paymentStatus === "pendingdataif2024") {
     return (
-      <Typography variant="button" color="orange" gutterBottom>
-        Not Complete
-      </Typography>
+      <Chip label="Not Complete" sx={{ backgroundColor: 'rgb(255, 152, 0)', color: 'white' }} />
     );
   } else {
     return (
-      <Typography variant="button" color="primary" gutterBottom>
-        Menunggu Pembayaran
-      </Typography>
+      <Chip label="Menunggu Pembayaran" sx={{ backgroundColor: 'rgb(96, 125, 139)', color: 'white' }} />
     );
   }
 }
@@ -60,7 +54,6 @@ function countTicket(ticketData) {
   );
 
   if (onsiteTickets.length > 0) {
-    // counterString += `${onsiteTickets.length} x ONSITE`;
     counterString += `${onsiteTickets.length}`;
   }
   if (onsiteTickets.length > 0 && onlineTickets.length > 0) {
@@ -88,8 +81,6 @@ const style = {
 
 export default function Orders({ data, page, size }) {
   const [open, setOpen] = useState(false);
-  // const [sortBy, setSortBy] = useState("name");
-  // const [sortDir, setSortDir] = useState("asc");
   const [selectedData, setSelectedData] = useState();
   const [ticketData, setTicketData] = useState();
   const [loadTicket, setLoadTicket] = useState(false);
@@ -98,22 +89,6 @@ export default function Orders({ data, page, size }) {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
-
-  // const handleSorting = (columnName) => {
-  //   setSortBy(columnName);
-  //   setSortDir(sortDir == "asc" ? "desc" : "asc");
-  // };
-
-  // const sortingComponent = (columnName) => {
-  //   if (columnName === sortBy) {
-  //     if (sortDir === "asc") {
-  //       return <ArrowDropUpIcon />;
-  //     } else {
-  //       return <ArrowDropDownIcon />;
-  //     }
-  //   }
-  //   return;
-  // };
 
   const fetchAllTicketsByInvoiceCode = async () => {
     if (!selectedData) {
@@ -144,6 +119,12 @@ export default function Orders({ data, page, size }) {
       });
   }
 
+  function handleWhatsAppMessage(phone) {
+    const message = encodeURIComponent("");
+    const whatsappLink = `https://wa.me/${phone}?text=${message}`;
+    window.open(whatsappLink, '_blank');
+  }
+
   useEffect(() => {
     setLoadTicket(true);
     fetchTickets();
@@ -157,18 +138,7 @@ export default function Orders({ data, page, size }) {
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
-              <TableCell>
-                Nama
-                {/* <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>Nama</span>
-                  {sortingComponent("name")}
-                </Box> */}
-              </TableCell>
+              <TableCell>Nama</TableCell>
               <TableCell>No HP</TableCell>
               <TableCell>ID Reference</TableCell>
               <TableCell>Voucher Code</TableCell>
@@ -183,7 +153,25 @@ export default function Orders({ data, page, size }) {
                 <TableRow key={row.id}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                   <TableCell>{row.customer.name}</TableCell>
-                  <TableCell>{row.customer.phone}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={
+                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                          <WhatsAppIcon sx={{ marginRight: 1 }} />
+                          {row.customer.phone}
+                        </span>
+                      }
+                      sx={{
+                        backgroundColor: '#25D366',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#20b358',
+                        },
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => handleWhatsAppMessage(row.customer.phone)}
+                    />
+                  </TableCell>
                   <TableCell>{row.invoice_code}</TableCell>
                   <TableCell>{row.voucher_code}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
@@ -198,11 +186,6 @@ export default function Orders({ data, page, size }) {
                       >
                         Detail
                       </Button>
-                      {/* {row.payment_status === "paid" && (
-                      <Button variant="outlined" color="success">
-                        Check-In
-                      </Button>
-                    )} */}
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -212,7 +195,6 @@ export default function Orders({ data, page, size }) {
                 <TableCell colSpan={10}>
                   <Grid
                     container
-                    // my={2}
                   >
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -332,24 +314,11 @@ export default function Orders({ data, page, size }) {
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                  {/* {selectedData.source} */}
-                  {/* {selectedData.source === 'LPAFF' ? 'JKT00001' : selectedData.source} */}
                   {selectedData.source === 'LPAFF' ? 'JKT00001' :
                     selectedData.source === 'DIRECT' ? 'WEBSITE' :
                     selectedData.source}
                 </Grid>
               </Grid>
-              {/* <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  Information
-                </Grid>
-                <Grid item xs="auto">
-                  :
-                </Grid>
-                <Grid item xs zeroMinWidth>
-                  {selectedData.information}
-                </Grid>
-              </Grid> */}
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   Referral
@@ -400,7 +369,6 @@ export default function Orders({ data, page, size }) {
                     : "-"}
                 </Grid>
               </Grid>
-              {/* { selectedData && selectedData.payment_status === 'paid' && ( */}
               <Fragment>
                 <hr />
                 <Grid container spacing={2}>
@@ -486,8 +454,6 @@ export default function Orders({ data, page, size }) {
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <a
                       href={`https://inspirafest.id/e-ticket?referenceId=${selectedData.invoice_code}`}
-                      //href={`http://localhost/production/inspirafest/e-ticket?referenceId=${selectedData.invoice_code}`}
-
                       target="_blank"
                       style={{
                         textDecoration: "none",
