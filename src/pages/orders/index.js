@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/layouts/MainLayout";
 import Orders from "../../components/Orders";
@@ -66,6 +66,9 @@ export default function OrderPage(props) {
     setSearch(e.target.value);
   }
 
+  const tableRef = useRef(null);
+  const [selectedCard, setSelectedCard] = useState(null);
+
   function getRequestParams(search, page, pageSize, filter) {
     let params = {};
     if (search) {
@@ -93,9 +96,17 @@ export default function OrderPage(props) {
     setPageSize(event.target.value);
   }
 
-  function handleFilterChange(event) {
+  function handleFilterChange(event, cardLabel) {
+    setSelectedCard(cardLabel);
+
     setPage(1);
     setFilter(event.target.value);
+
+    if (tableRef.current) {
+      tableRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.warn("Table reference not available yet.");
+    }
   }
 
   const fetchAllOrders = async () => {
@@ -135,8 +146,8 @@ export default function OrderPage(props) {
   return (
     <MainLayout>
       <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-        <Title>Orders</Title>
-        <OrderSummary />
+        <Title>Today</Title>
+        <OrderSummary handleFilterChange={handleFilterChange} selectedCard={selectedCard}/>
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <FormControl fullWidth variant="outlined">
@@ -189,7 +200,7 @@ export default function OrderPage(props) {
         ) : (
           <Fragment>
             <Grid container my={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} ref={tableRef}>
                 {loadedOrders && (
                   <Orders
                     data={loadedOrders}
