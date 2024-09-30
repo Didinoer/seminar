@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 
-export default function SummaryCard({ label, count, color, tooltip, onClick, isSelected }) {
+export default function SummaryCardToday({ label, count, color, tooltip, onClick }) {
   const [openTooltip, setOpenTooltip] = useState(false);
 
   const colorArray = {
@@ -31,12 +31,16 @@ export default function SummaryCard({ label, count, color, tooltip, onClick, isS
 
   return (
     <Card
-      sx={{ width: "100%", cursor: "pointer"  }}
-      style={{ backgroundColor: colorArray[color], color: "white", border: isSelected ? '2px solid #000' : '2px solid transparent',}}
-      onClick={onClick}
+        sx={{ 
+            width: "100%",
+            backgroundColor: 'transparent',
+            borderBottom: `8px solid ${colorArray[color]}`, 
+            mb: 2, // margin bottom untuk jarak antar kartu
+        }}
+        onClick={onClick}
     >
       <CardContent>
-        <Typography sx={{ fontSize: 14, fontWeight: isSelected ? 'bold' : 'normal' }} gutterBottom>
+        <Typography sx={{ fontSize: 14 }} gutterBottom>
           {label}
         </Typography>
         <Typography
@@ -56,10 +60,10 @@ export default function SummaryCard({ label, count, color, tooltip, onClick, isS
             onClick={handleTooltipOpen}
           >
             <IconButton onClick={handleTooltipOpen}>
-              <InfoIcon style={{ color: 'white' }} />
+              <InfoIcon style={{ color: 'black' }} />
             </IconButton>
           </Tooltip>
-          <span style={{ textAlign: 'right', color: 'white' }}>{count}</span>
+          <span style={{ textAlign: 'right', color: 'black' }}>{count}</span>
         </Typography>
       </CardContent>
     </Card>

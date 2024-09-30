@@ -11,9 +11,12 @@ import SummaryCard from "./SummaryCard";
 import { getAllOrderTotal } from "../util/api";
 import Title from "./Title";
 import { TableFooter } from '@mui/material';
+import SummaryCardToday from "./SummaryCardToday";
 
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
-export default function OrderSummary() {
+export default function OrderSummary({ handleFilterChange, selectedCard }) {
   const [totalData, setTotalData] = useState(0);
   const [totalPending, setTotalPending] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
@@ -32,6 +35,12 @@ export default function OrderSummary() {
   const [totalEb, setTotalEb] = useState(0);
   const [totalJkt01, setTotalJkt01] = useState(0);
   const [totalMrlc, setTotalMrlc] = useState(0);
+
+  const [totalDataToday, setTotalDataToday] = useState(0);
+  const [totalNotCompleteToday, setTotalNotCompleteToday] = useState(0);
+  const [totalPendingToday, setTotalPendingToday] = useState(0);
+  const [totalPaidToday, setTotalPaidToday] = useState(0);
+  const [totalExpiredToday, setTotalExpiredToday] = useState(0);
 
   const fetchAllTotal = async () => {
     const data = await getAllOrderTotal();
@@ -61,6 +70,12 @@ export default function OrderSummary() {
         setTotalMrlc(result.totalMrlc);
 
         setTotalNotComplete(result.totalNotComplete);
+
+        setTotalDataToday(result.totalDataToday);
+        setTotalNotCompleteToday(result.totalNotCompleteToday);
+        setTotalPendingToday(result.totalPendingToday);
+        setTotalPaidToday(result.totalPaidToday);
+        setTotalExpiredToday(result.totalExpiredToday);
   
       })
       .catch((err) => {
@@ -136,25 +151,100 @@ export default function OrderSummary() {
   }, []);
 
   return (
-    <Grid container spacing={2} mb={2}>
-      <Grid item xs={6} md={2}>
-        <SummaryCard label="Total Orders" count={totalData} color="blue" />
+    
+    <Grid container spacing={2} mb={2} >
+      <Grid item xs={12} md={4}>
+        <CardContent sx={{backgroundColor: '#E8F5E9'}}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 14 }}>
+            Total Orders Today
+          </Typography>
+          <Typography sx={{ textAlign: 'right', color: 'black', fontWeight: 'bold' }}>
+            {totalDataToday}
+          </Typography>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 14 }}>
+            Total Not Complete Today
+          </Typography>
+          <Typography sx={{ textAlign: 'right', color: 'black', fontWeight: 'bold' }}>
+            {totalNotCompleteToday}
+          </Typography>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 14 }}>
+            Total Pending Today
+          </Typography>
+          <Typography sx={{ textAlign: 'right', color: 'black', fontWeight: 'bold' }}>
+            {totalPendingToday}
+          </Typography>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 14 }}>
+            Total Expired Today
+          </Typography>
+          <Typography sx={{ textAlign: 'right', color: 'black', fontWeight: 'bold' }}>
+            {totalExpiredToday}
+          </Typography>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 14 }}>
+            Total Paid Today
+          </Typography>
+          <Typography sx={{ textAlign: 'right', color: 'black', fontWeight: 'bold' }}>
+            {totalPaidToday}
+          </Typography>
+        </div>
+    </CardContent>
+
+        {/* <SummaryCardToday label="Total Orders Today" count={totalDataToday} color="blue" tooltip="Total data pemesan hari ini"/> */}
       </Grid>
-      <Grid item xs={6} md={2}>
-        <SummaryCard label="Not Complete" count={totalNotComplete} color="orange" />
+
+      <Grid item xs={12} md={12}>
+        <Title>Orders</Title>
       </Grid>
-      <Grid item xs={6} md={2}>
-        <SummaryCard label="Pending" count={totalPending} color="blueGrey" />
+
+      <Grid item xs={6} md={2.4}>
+        <SummaryCard label="Total Orders" count={totalData} color="blue" tooltip="Total data pemesan" onClick={() => handleFilterChange({ target: { value: 'all' } }, 'Total Orders')} 
+          isSelected={selectedCard === 'Total Orders'}  />
       </Grid>
-      <Grid item xs={6} md={2}>
-        <SummaryCard label="Expired" count={totalExpired} color="red" />
+      <Grid item xs={6} md={2.4}>
+        <SummaryCard label="Not Complete" count={totalNotComplete} color="orange" tooltip="Data pemesan belum pesan tiket" onClick={() => handleFilterChange({ target: { value: 'pendingdataif2024' } }, 'Not Complete')} isSelected={selectedCard === 'Not Complete'}/>
       </Grid>
-      <Grid item xs={6} md={2}>
-        <SummaryCard label="Paid" count={totalPaid} color="green" />
+      <Grid item xs={6} md={2.4}>
+        <SummaryCard label="Pending" count={totalPending} color="blueGrey" tooltip="Data pemesan belum bayar" onClick={() => handleFilterChange({ target: { value: 'pending' } }, 'Pending')} isSelected={selectedCard === 'Pending'}/>
       </Grid>
-      <Grid item xs={6} md={2}>
+      <Grid item xs={6} md={2.4}>
+        <SummaryCard label="Expired" count={totalExpired} color="red" tooltip="Data pemesan belum bayar (Link Exp)" onClick={() => handleFilterChange({ target: { value: 'expired' } }, 'Expired')} isSelected={selectedCard === 'Expired'}/>
+      </Grid>
+      <Grid item xs={6} md={2.4}>
+        <SummaryCard label="Paid" count={totalPaid} color="green" tooltip="Data pemesan sudah bayar" onClick={() => handleFilterChange({ target: { value: 'paid' } }, 'Paid')} isSelected={selectedCard === 'Paid'}/>
+      </Grid>
+      {/* <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <div style={{ flex: 1, margin: '0 8px' }}>
+          <SummaryCard label="Total Orders" count={totalData} color="blue" tooltip="Total data pemesan" />
+        </div>
+        <div style={{ flex: 1, margin: '0 8px' }}>
+          <SummaryCard label="Not Complete" count={totalNotComplete} color="orange" tooltip="Data pemesan belum pesan tiket"/>
+        </div>
+        <div style={{ flex: 1, margin: '0 8px' }}>
+          <SummaryCard label="Pending" count={totalPending} color="blueGrey" tooltip="Data pemesan belum bayar"/>
+        </div>
+        <div style={{ flex: 1, margin: '0 8px' }}>
+          <SummaryCard label="Expired" count={totalExpired} color="red" tooltip="Data pemesan belum bayar (Link Exp)"/>
+        </div>
+        <div style={{ flex: 1, margin: '0 8px' }}>
+          <SummaryCard label="Paid" count={totalPaid} color="green" tooltip="Data pemesan sudah bayar"/>
+        </div>
+      </div>
+      </Grid> */}
+      
+      {/* <Grid item xs={6} md={2}>
       <div style={{ padding: '8px', border: '1px solid #e0e0e0', borderRadius: '8px' }}>
-        {/* <h4 style={{ marginBottom: '8px', fontSize: '14px' }}>Keterangan:</h4> */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3px' }}>
           <div style={{ width: '10px', height: '10px', backgroundColor: 'blue', borderRadius: '50%', marginRight: '8px' }}></div>
           <span style={{ fontSize: '10px' }}>Total data pemesan</span>
@@ -176,7 +266,7 @@ export default function OrderSummary() {
           <span style={{ fontSize: '10px' }}>Data pemesan sudah bayar</span>
         </div>
       </div>
-    </Grid>
+    </Grid> */}
 
       {/* <Grid item xs={12} md={12}>
         <Title>Tickets</Title>
