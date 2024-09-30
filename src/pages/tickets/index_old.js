@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import MainLayout from "../../components/layouts/MainLayout";
 import Tickets from "../../components/Tickets";
-import { getAllTickets2 } from "../../util/api";
+import { getAllTickets } from "../../util/api";
 import Pagination from "@mui/material/Pagination";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
@@ -28,10 +28,6 @@ export default function TicketPage(props) {
   const [search, setSearch] = useState("");
   const pageSizes = [10, 25, 50];
   const [pageSize, setPageSize] = useState(pageSizes[0]);
-
-  const [totalData, setTotalData] = useState(0);
-  const [totalDataAll, setTotalDataAll] = useState(0);
-
   const filterStatus = [
     {
       code: "all",
@@ -112,7 +108,7 @@ export default function TicketPage(props) {
 
   const fetchAllTickets = async () => {
     const params = getRequestParams(search, page, pageSize);
-    const data = await getAllTickets2(params);
+    const data = await getAllTickets(params);
     return data;
   };
 
@@ -123,8 +119,6 @@ export default function TicketPage(props) {
         console.log(result);
         setLoadedTickets(result.orders);
         setCount(result.totalPages);
-        setTotalData(result.totalData);
-        setTotalDataAll(result.totalDataAll);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -281,13 +275,13 @@ export default function TicketPage(props) {
             </Grid>
           </Fragment>
         )}
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={12}>
             <Typography variant="caption" display="block" gutterBottom>
-            <b>Jumlah Data Terfilter: {totalData} dari {totalDataAll} Total Data</b>
+            <b>Jumlah Data Terfilter: {count} dari {totalData} Total Data</b>
             </Typography>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Box>
     </MainLayout>
   );

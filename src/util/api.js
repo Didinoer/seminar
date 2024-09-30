@@ -151,6 +151,28 @@ export async function getAllTickets(params) {
   return tickets;
 }
 
+export async function getAllTickets2(params) {
+  const response = await fetch(
+    `${API_URL}api/tickets2?` + new URLSearchParams(params), {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: bearerToken,
+      },
+    }
+  );
+  const result = await response.json();
+
+  if (!result.success) {
+    console.log(result);
+    throw new Error(result.message || "Something went wrong!");
+  }
+
+  const tickets = result.data;
+
+  return tickets;
+}
+
 export async function getAllTicketTotal() {
   const response = await fetch(`${API_URL}api/tickets/total`, {
     headers: {
@@ -255,6 +277,28 @@ export async function getTicketsByInvoiceCode(invoiceCode) {
 
   return tickets;
 }
+
+export async function getTicketsById(invoiceCode) {
+  const response = await fetch(`${API_URL}api/tickets/detailtickets/${invoiceCode}`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+
+  console.log(result);
+
+  if (!result.success) {
+    throw new Error(result.message || "Something went wrong!");
+  }
+
+  const tickets = result.data.tickets;
+
+  return tickets;
+}
+
 // Added Wafi
 export async function getAllApproval(params) {
   const response = await fetch(

@@ -17,10 +17,8 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import TicketList from "./TicketList";
 import { formatDate } from "../util/date";
-import { getTicketsById, submitCheckIn } from "../util/api";
+import { getTicketsByInvoiceCode, submitCheckIn } from "../util/api";
 import { toast } from "react-toastify";
-
-import Chip from "@mui/material/Chip";
 
 function checkInStatusComponent(checkInObject) {
   if (checkInObject) {
@@ -39,46 +37,17 @@ function checkInStatusComponent(checkInObject) {
 }
 
 function ticketTypeComponent(ticketType) {
-  let chipColor = "#dddedf"; // Warna dasar
-  let textColor = "black"; // Warna tulisan dasar
-
-  if (ticketType === "Platinum") {
-    chipColor = "#0e0f2a"; // Warna untuk platinum
-    textColor = "white";
-  } else if (ticketType === "Gold" || ticketType === "VIP") {
-    chipColor = "#bc851b";    // Warna chip untuk gold
-    textColor = "white"; 
-  }
+  let fontColor = "primary";
+  // if (ticketType === "platinum") {
+  //   fontColor = "grey";
+  // } else if (ticketType === "vip" || ticketType === "gold"){
+  //   fontColor = "orange";
+  // }
   
   return (
-    <Chip
-      label={ticketType}
-      style={{
-        backgroundColor: chipColor,
-        color: textColor,
-        fontWeight: 'bold', // Menebalkan tulisan
-      }}
-    />
-  );
-}
-
-function statusCheckIn(status) {
-  let chipColor = "red"; // Warna dasar
-  let label = "Belum Check-In"; // Warna tulisan dasar
-
-  if (status === "hadir") {
-    chipColor = "green"; // Warna untuk platinum
-    label = "Sudah Check-In";
-  }
-  
-  return (
-    <Chip
-      label={label}
-      style={{
-        backgroundColor: chipColor,
-        color: "white",
-      }}
-    />
+    <Typography variant="button" color={fontColor} gutterBottom>
+      {ticketType}
+    </Typography>
   );
 }
 
@@ -103,14 +72,10 @@ export default function Tickets({ data, page, size, fetchData }) {
   const [selectedOwnerName, setSelectedOwnerName] = useState();
   const [selectedTicketArray, setSelectedTicketArray] = useState();
   const [checked, setChecked] = useState([]);
-
-  const [selectedTicketId, setSelectedTicketId] = useState();
-
-  const handleOpen = (invoiceCode, ownerName, ticketId) => {
+  const handleOpen = (invoiceCode, ownerName) => {
     setSelectedOwnerName(ownerName);
     const prevInvoiceCode = selectedInvoiceCode;
     setSelectedInvoiceCode(invoiceCode);
-    setSelectedTicketId(ticketId);
     if (prevInvoiceCode === invoiceCode) {
       fetchTickets();
     }
@@ -161,10 +126,10 @@ export default function Tickets({ data, page, size, fetchData }) {
   };
 
   const fetchAllTicketsByInvoiceCode = async () => {
-    if (!selectedTicketId) {
+    if (!selectedInvoiceCode) {
       return;
     }
-    const data = await getTicketsById(selectedTicketId);
+    const data = await getTicketsByInvoiceCode(selectedInvoiceCode);
     return data;
   };
 
@@ -181,7 +146,7 @@ export default function Tickets({ data, page, size, fetchData }) {
 
   useEffect(() => {
     fetchTickets();
-  }, [selectedTicketId]);
+  }, [selectedInvoiceCode]);
 
   return (
     <Fragment>
@@ -192,10 +157,9 @@ export default function Tickets({ data, page, size, fetchData }) {
               <TableCell>No</TableCell>
               <TableCell>Nama</TableCell>
               <TableCell>Jenis Ticket</TableCell>
-              {/* <TableCell>Jumlah Ticket</TableCell> */}
+              <TableCell>Jumlah Ticket</TableCell>
               <TableCell>ID Reference</TableCell>
               <TableCell>Tanggal Daftar</TableCell>
-              <TableCell>Status</TableCell>
               <TableCell>Check-In</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -205,28 +169,24 @@ export default function Tickets({ data, page, size, fetchData }) {
               data.map((row, idx) => (
                 <TableRow key={row.id}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
-                  <TableCell>{row.owner_name}</TableCell>
+                  <TableCell>{row.customer.name}</TableCell>
                   <TableCell>
-                    {ticketTypeComponent(row.ticket_jenis === 'VIP' ? 'Gold' : row.ticket_jenis)}
+                    {ticketTypeComponent(row.tickets[0].ticket_jenis)}
                   </TableCell>
-                  {/* <TableCell>
+                  <TableCell>
                     {row.totalSudahCheckIn}/{row.totalTicket}
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell>{row.invoice_code}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
                   <TableCell>
-                    {statusCheckIn(row.check_in_status)}
-                  </TableCell>
-                  <TableCell>
-                    {/* {checkInStatusComponent(row.latestCheckIn)} */}
-                    {row.check_in_time}
+                    {checkInStatusComponent(row.latestCheckIn)}
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button
                         variant="outlined"
                         onClick={() =>
-                          handleOpen(row.invoice_code, row.owner_name, row.id_ticket)
+                          handleOpen(row.invoice_code, row.customer.name)
                         }
                       >
                         Check-In
