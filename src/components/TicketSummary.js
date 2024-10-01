@@ -35,16 +35,16 @@ export default function TicketSummary() {
   return (
     <Grid container spacing={2} mb={2}>
       <Grid item xs={6} md={3}>
-        <SummaryCard label="Belum Check-In" count={totalBelumCheckIn} color="blue" />
+        <SummaryCard label="Belum Check-In" tooltip="Total data belum Check-In" count={totalBelumCheckIn} color="blue" />
       </Grid>
       <Grid item xs={6} md={3}>
-        <SummaryCard label="Sudah Check-In" count={totalSudahCheckIn} color="green" />
+        <SummaryCard label="Sudah Check-In" tooltip="Total data sudah Check-In" count={totalSudahCheckIn} color="green" />
       </Grid>
       <Grid item xs={6} md={3}>
-        <SummaryCard label="Total Ticket" count={totalData} color="blueGrey" />
+        <SummaryCard label="Total Ticket" tooltip="Total data Ticket" count={totalData} color="blueGrey" />
       </Grid>
       <Grid item xs={6} md={3}>
-        <SummaryCard label="Total Customer" count={totalPemesan} color="deepPurple" />
+        <SummaryCard label="Total Customer" tooltip="Total data Pemesan" count={totalPemesan} color="deepPurple" />
       </Grid>
     </Grid>
   );

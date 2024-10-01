@@ -17,6 +17,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 export default function OrderSummary({ handleFilterChange, selectedCard }) {
+  const [selectedCard2, setSelectedCard2] = useState(null);
+
   const [totalData, setTotalData] = useState(0);
   const [totalPending, setTotalPending] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
@@ -36,11 +38,20 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
   const [totalJkt01, setTotalJkt01] = useState(0);
   const [totalMrlc, setTotalMrlc] = useState(0);
 
+  const [totalLpaff, setTotalLpaff] = useState(0);
+  const [totalAd2, setTotalAd2] = useState(0);
+
   const [totalDataToday, setTotalDataToday] = useState(0);
   const [totalNotCompleteToday, setTotalNotCompleteToday] = useState(0);
   const [totalPendingToday, setTotalPendingToday] = useState(0);
   const [totalPaidToday, setTotalPaidToday] = useState(0);
   const [totalExpiredToday, setTotalExpiredToday] = useState(0);
+
+  // Function to handle card click
+  const handleCardClick = (cardName) => {
+    // setSelectedCard(cardName); // Update selected card state
+    handleFilterChange({ target: { value: 'today' } }, cardName); // Call filter change
+  };
 
   const fetchAllTotal = async () => {
     const data = await getAllOrderTotal();
@@ -68,6 +79,9 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
 
         setTotalJkt01(result.totalJkt01);
         setTotalMrlc(result.totalMrlc);
+
+        setTotalLpaff(result.totalLpaff);
+        setTotalAd2(result.totalAd2);
 
         setTotalNotComplete(result.totalNotComplete);
 
@@ -128,7 +142,14 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
       "name": "MRLC",
       "count": totalMrlc
     },
-    
+    {
+      "name": "LPAFF",
+      "count": totalLpaff
+    },
+    {
+      "name": "AD2",
+      "count": totalAd2
+    },
   ];
 
   const datatickets = [
@@ -154,7 +175,13 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     
     <Grid container spacing={2} mb={2} >
       <Grid item xs={12} md={4}>
-        <CardContent sx={{backgroundColor: '#E8F5E9'}}>
+        <CardContent sx={{
+          backgroundColor: '#E8F5E9',
+          border: selectedCard === 'Total Today' ? '2px solid black' : '2px solid transparent', // Set border to black if selected
+          cursor: 'pointer', // Change cursor to pointer
+        }}
+        onClick={() => handleCardClick('Total Today')} // Call function to update selected card and filter
+      >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography sx={{ fontSize: 14 }}>
             Total Orders Today
@@ -380,7 +407,6 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
             </Table>
           </TableContainer>
       </Grid>
-      
 
     </Grid>
   );

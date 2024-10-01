@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,8 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 
 export default function SummaryCard({ label, count, color, tooltip, onClick, isSelected }) {
-  const [openTooltip, setOpenTooltip] = useState(false);
-
   const colorArray = {
     blue: blue[500],
     green: green[500],
@@ -21,18 +19,14 @@ export default function SummaryCard({ label, count, color, tooltip, onClick, isS
     orange: orange[500],
   };
 
-  const handleTooltipOpen = () => {
-    setOpenTooltip(true);
-  };
-
-  const handleTooltipClose = () => {
-    setOpenTooltip(false);
-  };
-
   return (
     <Card
-      sx={{ width: "100%", cursor: "pointer"  }}
-      style={{ backgroundColor: colorArray[color], color: "white", border: isSelected ? '2px solid #000' : '2px solid transparent',}}
+      sx={{ width: "100%", cursor: "pointer" }}
+      style={{ 
+        backgroundColor: colorArray[color], 
+        color: "white", 
+        border: isSelected ? '2px solid #000' : '2px solid transparent',
+      }}
       onClick={onClick}
     >
       <CardContent>
@@ -50,12 +44,9 @@ export default function SummaryCard({ label, count, color, tooltip, onClick, isS
         >
           <Tooltip
             title={tooltip}
-            open={openTooltip}
-            onClose={handleTooltipClose}
-            disableHoverListener
-            onClick={handleTooltipOpen}
+            arrow
           >
-            <IconButton onClick={handleTooltipOpen}>
+            <IconButton>
               <InfoIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
