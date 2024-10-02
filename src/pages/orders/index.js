@@ -45,6 +45,10 @@ export default function OrderPage(props) {
       label: "Semua",
     },
     {
+      code: "today",
+      label: "Semua Today",
+    },
+    {
       code: "pendingdataif2024",
       label: "Not Complete",
     },
