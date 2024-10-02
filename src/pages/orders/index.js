@@ -20,6 +20,8 @@ import Title from "../../components/Title";
 import SummaryCard from "../../components/SummaryCard";
 import OrderSummary from "../../components/OrderSummary";
 
+import {ExportToExcel} from '../../components/ExportToExcel'
+
 export default function OrderPage(props) {
   const navigate = useNavigate();
   const [loadedOrders, setLoadedOrders] = useState();
@@ -34,6 +36,9 @@ export default function OrderPage(props) {
   const [isLoading, setIsLoading] = useState(false);
   const pageSizes = [10, 25, 50];
   const [pageSize, setPageSize] = useState(pageSizes[0]);
+
+  const [loadedOrdersExport, setLoadedOrdersExport] = useState();
+
   const filterStatus = [
     {
       code: "all",
@@ -127,6 +132,9 @@ export default function OrderPage(props) {
         setTotalPending(result.totalPending);
         setTotalPaid(result.totalPaid);
         setTotalExpired(result.totalExpired);
+
+        setLoadedOrdersExport(result.ordersExport);
+
         setIsLoading(false);
       })
       .catch((err) => {
@@ -149,7 +157,7 @@ export default function OrderPage(props) {
         <Title>Today</Title>
         <OrderSummary handleFilterChange={handleFilterChange} selectedCard={selectedCard}/>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={7}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-search">
                 Search by name or invoice code
@@ -187,6 +195,9 @@ export default function OrderPage(props) {
                 ))}
               </TextField>
             </FormControl>
+          </Grid>
+          <Grid item xs={3} md={1}>
+              <ExportToExcel apiData={loadedOrdersExport} fileName={'Export-Pemesan'} />
           </Grid>
         </Grid>
         {isLoading ? (

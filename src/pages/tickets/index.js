@@ -20,6 +20,8 @@ import TicketSummary from "../../components/TicketSummary";
 import AccordionItem from "../../components/AccordionItem";
 import TicketTableSummary from "../../components/TicketTableSummary";
 
+import {ExportToExcel} from '../../components/ExportToExcel'
+
 export default function TicketPage(props) {
   const [loadedTickets, setLoadedTickets] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,8 @@ export default function TicketPage(props) {
 
   const [totalData, setTotalData] = useState(0);
   const [totalDataAll, setTotalDataAll] = useState(0);
+
+  const [loadedTicketsExport, setLoadedTicketsExport] = useState();
 
   const filterStatus = [
     {
@@ -125,6 +129,9 @@ export default function TicketPage(props) {
         setCount(result.totalPages);
         setTotalData(result.totalData);
         setTotalDataAll(result.totalDataAll);
+
+        setLoadedTicketsExport(result.ordersExport);
+
         setIsLoading(false);
       })
       .catch((err) => {
@@ -155,7 +162,7 @@ export default function TicketPage(props) {
           </Grid>
         </Grid>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-search">
                 Search by name or invoice code
@@ -178,6 +185,10 @@ export default function TicketPage(props) {
               />
             </FormControl>
           </Grid>
+          <Grid item xs={3} md={1}>
+              <ExportToExcel apiData={loadedTicketsExport} fileName={'Export-Tickets'} />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <FormControl fullWidth variant="standard">
               <TextField
