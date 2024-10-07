@@ -483,6 +483,73 @@ export async function getAllReferral(params) {
   return orders;
 }
 
+export async function getAllVoucher() {
+  const response = await fetch(
+    `${API_URL}api/vouchers/getall`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: bearerToken,
+      },
+    }
+  );
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message || "Something went wrong!");
+  }
+
+  const orders = result.data;
+
+  return orders;
+}
+
+export async function submitEditVoucher(invoiceCode) {
+  console.log(JSON.stringify(invoiceCode));
+  
+  const response = await fetch(`${API_URL}api/vouchers/edit`, {
+    method: "POST",
+    body: JSON.stringify(invoiceCode),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+  console.log(result);
+  if (!result.success) {
+    console.log(result);
+    throw new Error(result.message || "Something went wrong!");
+  }
+  const settingWA = result.data;
+
+  return settingWA;
+}
+
+export async function submitAddVoucher(invoiceCode) {
+  console.log(JSON.stringify(invoiceCode));
+  
+  const response = await fetch(`${API_URL}api/vouchers/add`, {
+    method: "POST",
+    body: JSON.stringify(invoiceCode),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+  console.log(result);
+  if (!result.success) {
+    console.log(result);
+    throw new Error(result.message || "Something went wrong!");
+  }
+  const settingWA = result.data;
+
+  return settingWA;
+}
+
 export async function getSettingWablas() {
   const response = await fetch(`${API_URL}api/notif/setting-wablas`, {
     headers: {
