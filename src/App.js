@@ -10,6 +10,7 @@ import Invitation from "./pages/invitation/index";
 import Partnership from "./pages/partnership/index";
 import Referral from "./pages/referral/index";
 import Notif from "./pages/notif/index";
+import Voucher from "./pages/voucher/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/partnerships" element={<Partnership />} />
           <Route path="/referral" element={<Referral />} />
           <Route path="/notif" element={<Notif />} />
+          <Route path="/voucher" element={<Voucher />} />
         </Routes>
       </Router>
       <ToastContainer
