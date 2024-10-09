@@ -88,8 +88,8 @@ export default function SettingNotif({ data, page, size, fetchData }) {
       setVoucherForm({
         voucher_name: "",
         voucher_code: "",
-        kuota: "",
-        status: "",
+        kuota: 9999,
+        status: "inactive",
         ticket_types: [],
         discount: "",
       });
@@ -152,7 +152,7 @@ export default function SettingNotif({ data, page, size, fetchData }) {
 
   return (
     <Fragment>
-      <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+      <Button sx={{ mb: 2 }} variant="contained" color="primary" onClick={() => handleOpen()}>
         Add Voucher
       </Button>
       <TableContainer component={Paper}>
@@ -164,7 +164,7 @@ export default function SettingNotif({ data, page, size, fetchData }) {
               <TableCell>Code</TableCell>
               <TableCell>Discount</TableCell>
               <TableCell>Ticket</TableCell>
-              <TableCell>Kuota</TableCell>
+              <TableCell>Usage/Quota</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -255,9 +255,8 @@ export default function SettingNotif({ data, page, size, fetchData }) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  label="Kuota"
+                  label="Quota"
                   name="kuota"
                   type="number"
                   value={voucherForm.kuota}
@@ -266,7 +265,7 @@ export default function SettingNotif({ data, page, size, fetchData }) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
+                <FormControl required fullWidth variant="outlined">
                   <InputLabel>Status</InputLabel>
                   <Select
                     name="status"
@@ -280,7 +279,7 @@ export default function SettingNotif({ data, page, size, fetchData }) {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
+                <FormControl required fullWidth variant="outlined">
                   <InputLabel id="demo-multiple-chip-label">Ticket Types</InputLabel>
                   <Select
                     labelId="demo-multiple-chip-label"
@@ -299,6 +298,7 @@ export default function SettingNotif({ data, page, size, fetchData }) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  required
                   fullWidth
                   label="Discount"
                   name="discount"
@@ -310,6 +310,7 @@ export default function SettingNotif({ data, page, size, fetchData }) {
             </Grid>
           </List>
           <Button
+            sx={{ mt: 2 }}
             variant="contained"
             color="primary"
             onClick={isEditMode ? handleEdit : handleAdd}
