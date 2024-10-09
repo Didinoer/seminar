@@ -40,6 +40,11 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
 
   const [totalLpaff, setTotalLpaff] = useState(0);
   const [totalAd2, setTotalAd2] = useState(0);
+  const [totalAd3, setTotalAd3] = useState(0);
+  const [totalUNMAHA, setTotalUNMAHA] = useState(0);
+  const [totalEMAIL, setTotalEMAIL] = useState(0);
+  
+  const [totalAd4, setTotalAd4] = useState(0);
 
   const [totalDataToday, setTotalDataToday] = useState(0);
   const [totalNotCompleteToday, setTotalNotCompleteToday] = useState(0);
@@ -82,6 +87,11 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
 
         setTotalLpaff(result.totalLpaff);
         setTotalAd2(result.totalAd2);
+        setTotalAd3(result.totalAd3);
+        setTotalUNMAHA(result.totalUNMAHA);
+        setTotalEMAIL(result.totalEMAIL);
+        
+        setTotalAd4(result.totalAd4);
 
         setTotalNotComplete(result.totalNotComplete);
 
@@ -149,6 +159,22 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     {
       "name": "AD2",
       "count": totalAd2
+    },
+    {
+      "name": "AD3",
+      "count": totalAd3
+    },
+    {
+      "name": "UNMAHA",
+      "count": totalUNMAHA
+    },
+    {
+      "name": "EMAIL",
+      "count": totalEMAIL
+    },
+    {
+      "name": "AD4",
+      "count": totalAd4
     },
   ];
 
