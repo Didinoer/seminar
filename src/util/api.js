@@ -301,6 +301,27 @@ export async function getTicketsById(invoiceCode) {
   return tickets;
 }
 
+export async function getTicketsByIdTicket(idTicket) {
+  const response = await fetch(`${API_URL}api/tickets/detailtickets3/${idTicket}`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+
+  console.log(result);
+
+  if (!result.success) {
+    throw new Error(result.message || "Something went wrong!");
+  }
+
+  const tickets = result.data.tickets;
+
+  return tickets;
+}
+
 // Added Wafi
 export async function getAllApproval(params) {
   const response = await fetch(

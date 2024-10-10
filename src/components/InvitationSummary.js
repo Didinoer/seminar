@@ -100,7 +100,7 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
       </Grid>
 
       <Grid item xs={6} md={6}>
-        <SummaryCard label="Total Invitation Today" count={totalInvitationToday} color="blue" tooltip="Total Invitation Hari ini" onClick={() => handleFilterChange({ target: { value: 'all' } }, 'Total Orders')} 
+        <SummaryCard label="Total Invitation Today" count={totalInvitationToday} color="blue" tooltip="Total Invitation Hari ini" onClick={() => handleFilterChange({ target: { value: 'today' } }, 'Total Orders')} 
           isSelected={selectedCard === 'Total Orders'}  />
       </Grid>
       <Grid item xs={6} md={6}>

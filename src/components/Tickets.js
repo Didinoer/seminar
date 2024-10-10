@@ -17,7 +17,7 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import TicketList from "./TicketList";
 import { formatDate } from "../util/date";
-import { getTicketsById, submitCheckIn } from "../util/api";
+import { getTicketsById, getTicketsByIdTicket, submitCheckIn } from "../util/api";
 import { toast } from "react-toastify";
 
 import Chip from "@mui/material/Chip";
@@ -114,6 +114,7 @@ export default function Tickets({ data, page, size, fetchData }) {
     if (prevInvoiceCode === invoiceCode) {
       fetchTickets();
     }
+    setChecked([]);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
@@ -164,7 +165,7 @@ export default function Tickets({ data, page, size, fetchData }) {
     if (!selectedTicketId) {
       return;
     }
-    const data = await getTicketsById(selectedTicketId);
+    const data = await getTicketsByIdTicket(selectedTicketId);
     return data;
   };
 
@@ -226,7 +227,7 @@ export default function Tickets({ data, page, size, fetchData }) {
                       <Button
                         variant="outlined"
                         onClick={() =>
-                          handleOpen(row.invoice_code, row.owner_name, row.id_ticket)
+                          handleOpen(row.order_id, row.owner_name, row.id_ticket)
                         }
                       >
                         Check-In
@@ -271,7 +272,7 @@ export default function Tickets({ data, page, size, fetchData }) {
               }}
             >
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Invoice {selectedInvoiceCode} - {selectedOwnerName}
+                Ticket ID {selectedInvoiceCode} - {selectedOwnerName}
               </Typography>
               <IconButton aria-label="delete" onClick={handleClose}>
                 <CloseIcon />
