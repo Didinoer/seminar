@@ -110,6 +110,8 @@ export async function getAllOrderTotal() {
   return orders;
 }
 
+
+
 export async function getInvoice(invoiceCode) {
   const response = await fetch(`${API_URL}api/orders/${invoiceCode}`, {
     headers: {
@@ -340,9 +342,29 @@ export async function getAllApprovalTotal() {
   return orders;
 }
 
+// export async function getAllInvitation(params) {
+//   const response = await fetch(
+//     `${API_URL}api/invitation?` + new URLSearchParams(params), {
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//         Authorization: bearerToken,
+//       },
+//     }
+//   );
+//   const result = await response.json();
+
+//   if (!result.success) {
+//     throw new Error(result.message || "Something went wrong!");
+//   }
+
+//   const orders = result.data;
+//   return orders;
+// }
+
 export async function getAllInvitation(params) {
   const response = await fetch(
-    `${API_URL}api/invitation?` + new URLSearchParams(params), {
+    `${API_URL}api/orders/Invitation?` + new URLSearchParams(params), {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -357,11 +379,32 @@ export async function getAllInvitation(params) {
   }
 
   const orders = result.data;
+
   return orders;
 }
 
+
 export async function getAllInvitationTotal() {
-  const response = await fetch(`${API_URL}api/invitation/total`, {
+  const response = await fetch(`${API_URL}api/orders/totalInvitation`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message || "Something went wrong!");
+  }
+
+  const orders = result.data;
+
+  return orders;
+}
+
+export async function getAllInvitationTotal2() {
+  const response = await fetch(`${API_URL}api/orders/total2`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -615,12 +658,12 @@ export async function importExcel(array){
     },
   });
   const result = await response.json();
-  console.log(result);
+  console.log("APIII " + result);
   if (!result.success) {
     console.log(result);
     throw new Error(result.message || "Something went wrong!");
   }
-  const imports = result.data;
+  const imports = result;
 
   return imports;
 }
