@@ -338,7 +338,7 @@ export default function Orders({ data, page, size }) {
               <TableCell>Nama</TableCell>
               <TableCell>No HP</TableCell>
               <TableCell>ID Reference</TableCell>
-              <TableCell>Voucher Code</TableCell>
+              <TableCell>Invitation Code</TableCell>
               <TableCell>Tanggal Daftar</TableCell>
               {/* <TableCell>Status</TableCell> */}
               <TableCell>Action</TableCell>

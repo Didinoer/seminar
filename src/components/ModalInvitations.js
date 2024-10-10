@@ -302,7 +302,7 @@ import * as XLSX from "xlsx";
 import { importExcel } from "../util/api";
 import { toast } from "react-toastify";
 
-const ModalInvitations = ({ setIsOpen }) => {
+const ModalInvitations = ({ setIsOpen, fetchData }) => {
   const [array, setArray] = useState([]);
   const [errorData, setErrorData] = useState([]); // State untuk menyimpan data error
   const [message, setMessage] = useState([]); 
@@ -318,6 +318,7 @@ const ModalInvitations = ({ setIsOpen }) => {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+    zIndex: 10000,
   };
 
   const handleOnChange = (e) => {
@@ -366,6 +367,8 @@ const ModalInvitations = ({ setIsOpen }) => {
         toast.error(`${response.message} (${invalidDataCount} item(s) invalid)`); // Menambahkan count ke dalam pesan toast
       } else {
         toast.success("Semua data berhasil diimpor.");
+        setIsOpen(false);
+        fetchData();
       }
     } catch (error) {
       console.error("Error saat mengimpor:", error);
@@ -445,32 +448,35 @@ const ModalInvitations = ({ setIsOpen }) => {
               </Grid>
 
               {/* Table */}
-              <Paper>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>No</TableCell>
-                      <TableCell>Invitation Code</TableCell>
-                      <TableCell>Nama</TableCell>
-                      <TableCell>Phone</TableCell>
-                      <TableCell>Email</TableCell>
-                      {/* <TableCell>Status Error</TableCell> */}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {errorData.map((row, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{row.invitation_code}</TableCell>
-                        <TableCell>{row.name}</TableCell>
-                        <TableCell>{row.phone}</TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        {/* <TableCell>{row.error_message}</TableCell> */}
+              {
+                errorData.length > 0 &&
+                <Paper>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>No</TableCell>
+                        <TableCell>Invitation Code</TableCell>
+                        <TableCell>Nama</TableCell>
+                        <TableCell>Phone</TableCell>
+                        <TableCell>Email</TableCell>
+                        {/* <TableCell>Status Error</TableCell> */}
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Paper>
+                    </TableHead>
+                    <TableBody>
+                      {errorData.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell>{row.invitation_code}</TableCell>
+                          <TableCell>{row.name}</TableCell>
+                          <TableCell>{row.phone}</TableCell>
+                          <TableCell>{row.email}</TableCell>
+                          {/* <TableCell>{row.error_message}</TableCell> */}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Paper>
+              }
             </Grid>
           </Grid>
 
