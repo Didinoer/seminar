@@ -1,10 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Title from "../../components/Title";
-import InvitationSummary from "../../components/InvitationSummary";
 import MainLayout from "../../components/layouts/MainLayout";
-import Invitation from "../../components/Invitations";
-import ModalInvitations from "../../components/ModalInvitations";
+// import Orders from "../../components/Orders";
+import Invitations from "../../components/Invitations";
 import { getAllInvitation } from "../../util/api";
 import Pagination from "@mui/material/Pagination";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -17,24 +15,34 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
+// import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
+// import Title from "../../components/Title";
+// import SummaryCard from "../../components/SummaryCard";
+// import OrderSummary from "../../components/OrderSummary";
+import InvitationSummary from "../../components/InvitationSummary";
+// import {ExportToExcel} from '../../components/ExportToExcel'
 import Button from "@mui/material/Button";
 import UploadIcon from '@mui/icons-material/Upload';
+import ModalInvitations from "../../components/ModalInvitations";
 
-export default function InvitationPage(props) {
+export default function OrderPage(props) {
   const navigate = useNavigate();
   const [loadedInvitations, setLoadedInvitations] = useState();
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [countDisplayedData, setCountDisplayedData] = useState(0);
   const [totalData, setTotalData] = useState(0);
-  const [totalRedeem, setTotalRedeem] = useState(0);
-  const [totalAvailable, setTotalAvailable] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
+  const [totalPaid, setTotalPaid] = useState(0);
+  const [totalExpired, setTotalExpired] = useState(0);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const pageSizes = [10, 25, 50];
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [loadedInvitationsExport, setLoadedInvitationsExport] = useState();
 
   const filterStatus = [
     {
@@ -42,12 +50,24 @@ export default function InvitationPage(props) {
       label: "Semua",
     },
     {
-      code: "available",
-      label: "Belum Redeem",
+      code: "today",
+      label: "Semua Today",
     },
     {
-      code: "redeem",
-      label: "Sudah Redeem",
+      code: "pendingdataif2024",
+      label: "Not Complete",
+    },
+    {
+      code: "pending",
+      label: "Menunggu Pembayaran",
+    },
+    {
+      code: "paid",
+      label: "Pembayaran Berhasil",
+    },
+    {
+      code: "expired",
+      label: "Pembayaran Dibatalkan",
     },
   ];
   const [filter, setFilter] = useState(filterStatus[0].code);
@@ -59,6 +79,9 @@ export default function InvitationPage(props) {
   function onChangeSearch(e) {
     setSearch(e.target.value);
   }
+
+  const tableRef = useRef(null);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function getRequestParams(search, page, pageSize, filter) {
     let params = {};
@@ -87,29 +110,40 @@ export default function InvitationPage(props) {
     setPageSize(event.target.value);
   }
 
-  function handleFilterChange(event) {
+  function handleFilterChange(event, cardLabel) {
+    setSelectedCard(cardLabel);
+
     setPage(1);
     setFilter(event.target.value);
+
+    if (tableRef.current) {
+      tableRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.warn("Table reference not available yet.");
+    }
   }
 
-  const fetchAllApproval = async () => {
+  const fetchAllInvitations = async () => {
     const params = getRequestParams(search, page, pageSize, filter);
     const data = await getAllInvitation(params);
     return data;
   };
 
-  
   function fetchData() {
     setIsLoading(true);
-    fetchAllApproval()
+    fetchAllInvitations()
       .then((result) => {
         console.log(result);
-        setLoadedInvitations(result.invitations);
-        setCountDisplayedData(result.invitations.length);
+        setLoadedInvitations(result.orders);
+        setCountDisplayedData(result.orders.length);
         setCount(result.totalPages);
         setTotalData(result.totalData);
-        setTotalRedeem(result.totalPending);
-        setTotalAvailable(result.totalPaid);
+        setTotalPending(result.totalPending);
+        setTotalPaid(result.totalPaid);
+        setTotalExpired(result.totalExpired);
+
+        setLoadedInvitationsExport(result.ordersExport);
+
         setIsLoading(false);
       })
       .catch((err) => {
@@ -129,13 +163,13 @@ export default function InvitationPage(props) {
   return (
     <MainLayout>
       <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-        <Title>Invitation</Title>
-        <InvitationSummary />
+        {/* <Title>Today</Title> */}
+        <InvitationSummary handleFilterChange={handleFilterChange} selectedCard={selectedCard}/>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={7}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-search">
-                Search by name, email or phone
+                Search by name or invoice code
               </InputLabel>
               <OutlinedInput
                 id="outlined-search"
@@ -155,11 +189,11 @@ export default function InvitationPage(props) {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={9} md={3}>
+          <Grid item xs={12} md={4}>
             <FormControl fullWidth variant="standard">
               <TextField
                 select
-                label="Status"
+                label="Status Pembayaran"
                 value={filter}
                 onChange={handleFilterChange}
               >
@@ -171,16 +205,15 @@ export default function InvitationPage(props) {
               </TextField>
             </FormControl>
           </Grid>
-          <Grid item xs={3} md={1}>
+          {/* <Grid item xs={3} md={1}>
+              <ExportToExcel apiData={loadedInvitationsExport} fileName={'Export-Pemesan'} />
+          </Grid> */}
+           <Grid item xs={3} md={1}>
             <Button variant="outlined" sx={{ height: 55 }} fullWidth={true}  onClick={() => setIsOpen(true)} > <UploadIcon /> </Button>
           </Grid>
 
-          {isOpen && <ModalInvitations setIsOpen={setIsOpen} />}
-
-
+          {isOpen && <ModalInvitations setIsOpen={setIsOpen}  style={{ zIndex: 1300 }}  />}
         </Grid>
-
-
         {isLoading ? (
           <Grid container spacing={2} my={2}>
             <Grid item xs={12}>
@@ -192,9 +225,9 @@ export default function InvitationPage(props) {
         ) : (
           <Fragment>
             <Grid container my={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} ref={tableRef}>
                 {loadedInvitations && (
-                  <Invitation
+                  <Invitations
                     data={loadedInvitations}
                     page={page}
                     count={count}
@@ -203,7 +236,6 @@ export default function InvitationPage(props) {
                     countDisplayedData={countDisplayedData}
                     handlePageChange={handlePageChange}
                     handlePageSizeChange={handlePageSizeChange}
-                    fetchData={fetchData}
                   />
                 )}
               </Grid>
@@ -260,3 +292,4 @@ export default function InvitationPage(props) {
     </MainLayout>
   );
 }
+

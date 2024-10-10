@@ -1,3 +1,217 @@
+// import { Fragment, useState, useEffect } from "react";
+// import Table from "@mui/material/Table";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell from "@mui/material/TableCell";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import Paper from "@mui/material/Paper";
+// import Typography from "@mui/material/Typography";
+// import Button from "@mui/material/Button";
+// import Box from "@mui/material/Box";
+// import List from "@mui/material/List";
+// import Modal from "@mui/material/Modal";
+// import Grid from "@mui/material/Grid";
+// import IconButton from "@mui/material/IconButton";
+// import Stack from "@mui/material/Stack";
+// import CloseIcon from "@mui/icons-material/Close";
+// import { formatDate } from "../util/date";
+
+// function paymentStatusComponent(paymentStatus) {
+//   if (paymentStatus === "redeem") {
+//     return (
+//       <Typography variant="button" color="green" gutterBottom>
+//         Sudah Redeem
+//       </Typography>
+//     );
+//   } else if (paymentStatus === "available") {
+//     return (
+//       <Typography variant="button" color="red" gutterBottom>
+//        Belum Redeem
+//       </Typography>
+//     );
+//   } else {
+//     return ( 
+//       <Typography variant="button" color="red" gutterBottom>
+//        Belum Redeem
+//       </Typography>
+//     );
+//   }
+// }
+
+// const style = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: "100%",
+//   maxWidth: 550,
+//   bgcolor: "background.paper",
+//   border: "2px solid #000",
+//   boxShadow: 24,
+//   p: 4,
+// };
+
+// export default function Invitations({ data, page, size }) {
+//   const [open, setOpen] = useState(false);
+//   const [selectedData, setSelectedData] = useState();
+//   const handleOpen = (data) => {
+//     setSelectedData(data);
+//     setOpen(true);
+//   };
+//   const handleClose = () => setOpen(false);
+
+//   useEffect(() => {
+//   }, [selectedData]);
+
+//   return (
+//     <Fragment>
+//       <TableContainer component={Paper}>
+//         <Table>
+//           <TableHead>
+//             <TableRow>
+//               <TableCell>No</TableCell>
+//               <TableCell>Invitation Code</TableCell>
+//               <TableCell>Name</TableCell>
+//               <TableCell>Email</TableCell>
+//               <TableCell>Phone</TableCell>
+//               <TableCell>Ticket Type</TableCell>
+//               <TableCell>Status</TableCell>
+//               <TableCell>Action</TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {data.length > 0 ? (
+//               data.map((row, idx) => (
+//                 <TableRow key={row.id}>
+//                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
+//                   <TableCell>{row.invitation_code}</TableCell>
+//                   <TableCell>{row.name}</TableCell>
+//                   <TableCell>{row.email}</TableCell>
+//                   <TableCell>{row.phone}</TableCell>
+//                   <TableCell>{row.ticket_type}</TableCell>
+//                   <TableCell>
+//                     {paymentStatusComponent(row.status)}
+//                   </TableCell>
+//                   <TableCell>
+//                     <Stack direction="row" spacing={1}>
+//                       <Button
+//                         variant="outlined"
+//                         onClick={() => handleOpen(row)}
+//                       >
+//                         Detail
+//                       </Button>
+//                     </Stack>
+//                   </TableCell>
+//                 </TableRow>
+//               ))
+//             ) : (
+//               <TableRow>
+//                 <TableCell colSpan={10}>
+//                   <Grid
+//                     container
+//                     // my={2}
+//                   >
+//                     <Grid item xs={12}>
+//                       <Box sx={{ display: "flex", justifyContent: "center" }}>
+//                         <Typography variant="button" color="red">
+//                           Data Tidak Ditemukan
+//                         </Typography>
+//                       </Box>
+//                     </Grid>
+//                   </Grid>
+//                 </TableCell>
+//               </TableRow>
+//             )}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+//       {selectedData && (
+//         <Modal
+//           open={open}
+//           onClose={handleClose}
+//           style={{
+//             overflow: "scroll",
+//           }}
+//           disableScrollLock
+//           aria-labelledby="modal-modal-title"
+//           aria-describedby="modal-modal-description"
+//         >
+//           <Box sx={style}>
+//             <Box
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "space-between",
+//               }}
+//             >
+//               <Typography id="modal-modal-title" variant="h6" component="h2">
+//                 Data Customer
+//               </Typography>
+//               <IconButton aria-label="delete" onClick={handleClose}>
+//                 <CloseIcon />
+//               </IconButton>
+//             </Box>
+//             <List style={{ maxHeight: 550, overflow: "auto" }}>
+//               <Grid container spacing={2} id="modal-modal-description">
+//                 <Grid item xs={4}>
+//                   Nama
+//                 </Grid>
+//                 <Grid item xs="auto">
+//                   :
+//                 </Grid>
+//                 <Grid item xs zeroMinWidth>
+//                   {selectedData.name}
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={4}>
+//                   No HP
+//                 </Grid>
+//                 <Grid item xs="auto">
+//                   :
+//                 </Grid>
+//                 <Grid item xs zeroMinWidth>
+//                   {selectedData.phone}
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={4}>
+//                   Email
+//                 </Grid>
+//                 <Grid item xs="auto">
+//                   :
+//                 </Grid>
+//                 <Grid item xs zeroMinWidth>
+//                   {selectedData.email}
+//                 </Grid>
+//               </Grid>
+//               <hr />
+//                 <Grid item xs zeroMinWidth>
+//                   {paymentStatusComponent(selectedData.status)}
+//                 </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={4}>
+//                   Tanggal Redeem
+//                 </Grid>
+//                 <Grid item xs="auto">
+//                   :
+//                 </Grid>
+//                 <Grid item xs zeroMinWidth>
+//                   {" "}
+//                   {selectedData.process_date
+//                     ? formatDate(selectedData.process_date)
+//                     : "-"}
+//                 </Grid>
+//               </Grid>
+//             </List>
+//           </Box>
+//         </Modal>
+//       )}
+//     </Fragment>
+//   );
+// }
+
+
 import { Fragment, useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
@@ -7,6 +221,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -16,27 +231,35 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatDate } from "../util/date";
+import { getTicketsById } from "../util/api";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
-function paymentStatusComponent(paymentStatus) {
-  if (paymentStatus === "redeem") {
-    return (
-      <Typography variant="button" color="green" gutterBottom>
-        Sudah Redeem
-      </Typography>
-    );
-  } else if (paymentStatus === "available") {
-    return (
-      <Typography variant="button" color="red" gutterBottom>
-       Belum Redeem
-      </Typography>
-    );
-  } else {
-    return ( 
-      <Typography variant="button" color="red" gutterBottom>
-       Belum Redeem
-      </Typography>
-    );
+
+
+function countTicket(ticketData) {
+  let counterString = "";
+  if (!ticketData) {
+    return;
   }
+
+  const onsiteTickets = ticketData.filter(
+    (ticket) => ticket.ticket_type === "onsite"
+  );
+  const onlineTickets = ticketData.filter(
+    (ticket) => ticket.ticket_type === "online"
+  );
+
+  if (onsiteTickets.length > 0) {
+    counterString += `${onsiteTickets.length}`;
+  }
+  if (onsiteTickets.length > 0 && onlineTickets.length > 0) {
+    counterString += ", ";
+  }
+  if (onlineTickets.length > 0) {
+    counterString += `${onlineTickets.length} x ONLINE`;
+  }
+
+  return counterString;
 }
 
 const style = {
@@ -52,16 +275,57 @@ const style = {
   p: 4,
 };
 
-export default function Invitations({ data, page, size }) {
+export default function Orders({ data, page, size }) {
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData] = useState();
+  const [ticketData, setTicketData] = useState();
+  const [loadTicket, setLoadTicket] = useState(false);
   const handleOpen = (data) => {
     setSelectedData(data);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
+  const fetchAllTicketsByInvoiceCode = async () => {
+    if (!selectedData) {
+      return;
+    }
+    console.log(selectedData.id);
+    const data = await getTicketsById(selectedData.id);
+    return data;
+  };
+
+  function ownerPhone(ticketOwnerPhone) {
+    const phone = (ticketOwnerPhone && ticketOwnerPhone !== '+NULL' && ticketOwnerPhone !== 'NULL') ? ticketOwnerPhone : '-';
+    return phone;
+  }
+
+  function ownerEmail(ticketOwnerEmail) {
+    const email = (ticketOwnerEmail && ticketOwnerEmail !== '+NULL' && ticketOwnerEmail !== 'NULL') ? ticketOwnerEmail : '-';
+    return email;
+  }
+
+  function fetchTickets() {
+    fetchAllTicketsByInvoiceCode()
+      .then((result) => {
+        console.log(result+'asdasdjkjjk');
+        setTicketData(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleWhatsAppMessage(phone) {
+    const message = encodeURIComponent("");
+    const whatsappLink = `https://wa.me/${phone}?text=${message}`;
+    window.open(whatsappLink, '_blank');
+  }
+
   useEffect(() => {
+    setLoadTicket(true);
+    fetchTickets();
+    setLoadTicket(false);
   }, [selectedData]);
 
   return (
@@ -71,12 +335,12 @@ export default function Invitations({ data, page, size }) {
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
-              <TableCell>Invitation Code</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Ticket Type</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Nama</TableCell>
+              <TableCell>No HP</TableCell>
+              <TableCell>ID Reference</TableCell>
+              <TableCell>Voucher Code</TableCell>
+              <TableCell>Tanggal Daftar</TableCell>
+              {/* <TableCell>Status</TableCell> */}
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -85,14 +349,33 @@ export default function Invitations({ data, page, size }) {
               data.map((row, idx) => (
                 <TableRow key={row.id}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
-                  <TableCell>{row.invitation_code}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell>{row.ticket_type}</TableCell>
+                  <TableCell>{row.customer.name}</TableCell>
                   <TableCell>
-                    {paymentStatusComponent(row.status)}
+                  <Chip
+                    label={
+                      <span style={{ display: 'flex', alignItems: 'center' }}>
+                        <WhatsAppIcon sx={{ marginRight: 1 }} />
+                        {row.customer.phone}
+                      </span>
+                    }
+                    sx={{
+                      backgroundColor: '#25D366',
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: '#20b358',
+                      },
+                      cursor: 'pointer',
+                      zIndex: 1000,  // Set lower than modal's zIndex (optional)
+                    }}
+                    onClick={() => handleWhatsAppMessage(row.customer.phone)}
+                  />
                   </TableCell>
+                  <TableCell>{row.invoice_code}</TableCell>
+                  <TableCell>{row.voucher_code}</TableCell>
+                  <TableCell>{formatDate(row.createdAt)}</TableCell>
+                  {/* <TableCell>
+                    {paymentStatusComponent(row.payment_status)}
+                  </TableCell> */}
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button
@@ -110,7 +393,6 @@ export default function Invitations({ data, page, size }) {
                 <TableCell colSpan={10}>
                   <Grid
                     container
-                    // my={2}
                   >
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -160,7 +442,7 @@ export default function Invitations({ data, page, size }) {
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                  {selectedData.name}
+                  {selectedData.customer.name}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
@@ -171,7 +453,7 @@ export default function Invitations({ data, page, size }) {
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                  {selectedData.phone}
+                  {selectedData.customer.phone}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
@@ -182,25 +464,215 @@ export default function Invitations({ data, page, size }) {
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                  {selectedData.email}
+                  {selectedData.customer.email}
                 </Grid>
               </Grid>
               <hr />
-                <Grid item xs zeroMinWidth>
-                  {paymentStatusComponent(selectedData.status)}
-                </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={4}>
-                  Tanggal Redeem
+                  ID Reference
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  {selectedData.invoice_code}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Tiket
                 </Grid>
                 <Grid item xs="auto">
                   :
                 </Grid>
                 <Grid item xs zeroMinWidth>
                   {" "}
-                  {selectedData.process_date
-                    ? formatDate(selectedData.process_date)
+                  {ticketData && !loadTicket
+                    ? countTicket(ticketData)
+                    : "Loading..."}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Total Harga
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  Rp {Number(selectedData.total).toLocaleString("ID-id")}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Source
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  {selectedData.source === 'LPAFF' ? 'JKT00001' :
+                    selectedData.source === 'DIRECT' ? 'WEBSITE' :
+                    selectedData.source}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Referral
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  {" "}
+                  {selectedData.referror
+                    ? selectedData.fighter_id + " - " + selectedData.referror
                     : "-"}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Status
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  Pendaftaran Berhasil
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Tanggal Daftar
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  {formatDate(selectedData.createdAt)}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  Tanggal Bayar
+                </Grid>
+                <Grid item xs="auto">
+                  :
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  {" "}
+                  {selectedData.date_paid
+                    ? formatDate(selectedData.date_paid)
+                    : "-"}
+                </Grid>
+              </Grid>
+              <Fragment>
+                <hr />
+                <Grid container spacing={2}>
+                  <Grid item xs={12} mb={1}>
+                    <Typography variant="h6" component="h2">
+                      List Ticket
+                    </Typography>
+                  </Grid>
+                </Grid>
+                {ticketData && !loadTicket
+                  ? ticketData.map((ticket, index) => (
+                      <Fragment key={index}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={12}>
+                            <b>Ticket {index + 1}</b>
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                          <Grid item xs={4}>
+                            Nama
+                          </Grid>
+                          <Grid item xs="auto">
+                            :
+                          </Grid>
+                          <Grid item xs zeroMinWidth>
+                            {ticket.owner_name}
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                          <Grid item xs={4}>
+                            No HP
+                          </Grid>
+                          <Grid item xs="auto">
+                            :
+                          </Grid>
+                          <Grid item xs zeroMinWidth>
+                            {ownerPhone(ticket.owner_phone)}
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                          <Grid item xs={4}>
+                            Email
+                          </Grid>
+                          <Grid item xs="auto">
+                            :
+                          </Grid>
+                          <Grid item xs zeroMinWidth>
+                            {ownerEmail(ticket.owner_email)}
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                          <Grid item xs={4}>
+                            Ticket Type
+                          </Grid>
+                          <Grid item xs="auto">
+                            :
+                          </Grid>
+                          <Grid item xs zeroMinWidth>
+                            {" "}
+                            {ticket.ticket_jenis === 'VIP' ? 'Gold' : ticket.ticket_jenis}
+                          </Grid>
+                        </Grid>
+                        { selectedData && selectedData.payment_status === 'paid' && (
+                        <Grid container spacing={2} mb={1}>
+                          <Grid item xs={4}>
+                            Ticket Code
+                          </Grid>
+                          <Grid item xs="auto">
+                            :
+                          </Grid>
+                          <Grid item xs zeroMinWidth>
+                            {ticket.ticket_code}
+                          </Grid>
+                        </Grid>
+                        )}
+                      </Fragment>
+                    ))
+                  : "Loading..."}
+              </Fragment>
+              {/* )} */}
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <a
+                      href={`https://inspirafest.id/e-ticket-invitation/?Id=${selectedData.id}`}
+                      target="_blank"
+                      style={{
+                        textDecoration: "none",
+                        pointerEvents:
+                          (selectedData.payment_status === "pending" ||
+                            selectedData.payment_status === "expired") && 
+                          "none",
+                      }}
+                      rel="noreferrer"
+                    >
+                      <Button
+                        disabled={
+                          selectedData.payment_status === "pending" ||
+                          selectedData.payment_status === "expired"
+                        }
+                        variant="outlined"
+                      >
+                        Cetak E-Ticket
+                      </Button>
+                    </a>
+                  </Box>
                 </Grid>
               </Grid>
             </List>
@@ -210,3 +682,4 @@ export default function Invitations({ data, page, size }) {
     </Fragment>
   );
 }
+ 
