@@ -166,7 +166,7 @@ export default function OrderPage(props) {
         {/* <Title>Today</Title> */}
         <InvitationSummary handleFilterChange={handleFilterChange} selectedCard={selectedCard}/>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} md={11}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-search">
                 Search by name or invoice code
@@ -189,7 +189,7 @@ export default function OrderPage(props) {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <FormControl fullWidth variant="standard">
               <TextField
                 select
@@ -204,7 +204,7 @@ export default function OrderPage(props) {
                 ))}
               </TextField>
             </FormControl>
-          </Grid>
+          </Grid> */}
           {/* <Grid item xs={3} md={1}>
               <ExportToExcel apiData={loadedInvitationsExport} fileName={'Export-Pemesan'} />
           </Grid> */}
@@ -212,7 +212,7 @@ export default function OrderPage(props) {
             <Button variant="outlined" sx={{ height: 55 }} fullWidth={true}  onClick={() => setIsOpen(true)} > <UploadIcon /> </Button>
           </Grid>
 
-          {isOpen && <ModalInvitations setIsOpen={setIsOpen}  style={{ zIndex: 1300 }}  />}
+          {isOpen && <ModalInvitations setIsOpen={setIsOpen} fetchData={fetchData}  style={{ zIndex: 1300 }}  />}
         </Grid>
         {isLoading ? (
           <Grid container spacing={2} my={2}>
