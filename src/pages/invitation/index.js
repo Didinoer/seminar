@@ -21,7 +21,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 // import SummaryCard from "../../components/SummaryCard";
 // import OrderSummary from "../../components/OrderSummary";
 import InvitationSummary from "../../components/InvitationSummary";
-// import {ExportToExcel} from '../../components/ExportToExcel'
+import {ExportToExcel} from '../../components/ExportToExcel'
 import Button from "@mui/material/Button";
 import UploadIcon from '@mui/icons-material/Upload';
 import ModalInvitations from "../../components/ModalInvitations";
@@ -166,7 +166,7 @@ export default function OrderPage(props) {
         {/* <Title>Today</Title> */}
         <InvitationSummary handleFilterChange={handleFilterChange} selectedCard={selectedCard}/>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={11}>
+          <Grid item xs={12} md={10}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-search">
                 Search by name or invoice code
@@ -205,10 +205,10 @@ export default function OrderPage(props) {
               </TextField>
             </FormControl>
           </Grid> */}
-          {/* <Grid item xs={3} md={1}>
+          <Grid item xs={6} md={1}>
               <ExportToExcel apiData={loadedInvitationsExport} fileName={'Export-Pemesan'} />
-          </Grid> */}
-           <Grid item xs={3} md={1}>
+          </Grid>
+           <Grid item xs={6} md={1}>
             <Button variant="outlined" sx={{ height: 55 }} fullWidth={true}  onClick={() => setIsOpen(true)} > <UploadIcon /> </Button>
           </Grid>
 

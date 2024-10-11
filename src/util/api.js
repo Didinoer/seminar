@@ -591,6 +591,73 @@ export async function submitEditVoucher(invoiceCode) {
   return settingWA;
 }
 
+export async function getAllInvitationCode() {
+  const response = await fetch(
+    `${API_URL}api/invitationcode/getall`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: bearerToken,
+      },
+    }
+  );
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message || "Something went wrong!");
+  }
+
+  const orders = result.data;
+
+  return orders;
+}
+
+export async function submitEditInvitationCode(invoiceCode) {
+  console.log(JSON.stringify(invoiceCode));
+  
+  const response = await fetch(`${API_URL}api/invitationcode/edit`, {
+    method: "POST",
+    body: JSON.stringify(invoiceCode),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+  console.log(result);
+  if (!result.success) {
+    console.log(result);
+    throw new Error(result.message || "Something went wrong!");
+  }
+  const settingWA = result.data;
+
+  return settingWA;
+}
+
+export async function submitAddInvitationCode (invoiceCode) {
+  console.log(JSON.stringify(invoiceCode));
+  
+  const response = await fetch(`${API_URL}api/invitationcode/add`, {
+    method: "POST",
+    body: JSON.stringify(invoiceCode),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+  console.log(result);
+  if (!result.success) {
+    console.log(result);
+    throw new Error(result.message || "Something went wrong!");
+  }
+  const settingWA = result.data;
+
+  return settingWA;
+}
+
 export async function submitAddVoucher(invoiceCode) {
   console.log(JSON.stringify(invoiceCode));
   

@@ -99,11 +99,11 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
         <Title>Invitations</Title>
       </Grid>
 
-      <Grid item xs={6} md={6}>
+      <Grid item xs={12} md={6}>
         <SummaryCard label="Total Invitation Today" count={totalInvitationToday} color="blue" tooltip="Total Invitation Hari ini" onClick={() => handleFilterChange({ target: { value: 'today' } }, 'Total Orders')} 
           isSelected={selectedCard === 'Total Orders'}  />
       </Grid>
-      <Grid item xs={6} md={6}>
+      <Grid item xs={12} md={6}>
         <SummaryCard label="Total Invitation" count={totalData} color="green" tooltip="Total invitation Inspirafest 2024" onClick={() => handleFilterChange({ target: { value: 'paid' } }, 'Paid')} isSelected={selectedCard === 'Paid'}/>
       </Grid>
 

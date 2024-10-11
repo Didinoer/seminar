@@ -131,6 +131,16 @@ export default function DrawerItems() {
         </ListItemButton>
       </Link>
       }
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
+      <Link to={"/invitationcode"} className="text-link">
+        <ListItemButton selected={location.pathname === "/invitationcode"}>
+          <ListItemIcon>
+            <ConfirmationNumberIcon />
+          </ListItemIcon>
+          <ListItemText primary="Invitation Code" />
+        </ListItemButton>
+      </Link>
+      }
     </React.Fragment>
   );
 }
