@@ -2,6 +2,7 @@
 //const API_URL = "http://192.168.55.12:80/";
 const API_URL = "https://inspirafest.id/server/";
 const bearerToken = "Bearer " + localStorage.getItem("token");
+const SERVER_API_KEY = "A2Vt8qPwqlWUHu6APQ5j8NOArta2HlNGeGMV3Bls7ZQvFM2xus2of4D5MwowfnYb";
 
 export async function login(credentials) {
   const response = await fetch(`${API_URL}api/login`, {
@@ -487,6 +488,7 @@ export async function getAllPartnershipTotal() {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: bearerToken,
+      "x-api-key": SERVER_API_KEY,
     },
   });
   const result = await response.json();
