@@ -50,24 +50,28 @@ export default function OrderPage(props) {
       label: "Semua",
     },
     {
-      code: "today",
-      label: "Semua Today",
+      code: "MD",
+      label: "MD",
     },
     {
-      code: "pendingdataif2024",
-      label: "Not Complete",
+      code: "MRE",
+      label: "MRE",
     },
     {
-      code: "pending",
-      label: "Menunggu Pembayaran",
+      code: "LIPPO",
+      label: "LIPPO",
     },
     {
-      code: "paid",
-      label: "Pembayaran Berhasil",
+      code: "MRI",
+      label: "MRI",
     },
     {
-      code: "expired",
-      label: "Pembayaran Dibatalkan",
+      code: "MEDIA",
+      label: "MEDIA",
+    },
+    {
+      code: "MR",
+      label: "MR",
     },
   ];
   const [filter, setFilter] = useState(filterStatus[0].code);
@@ -166,7 +170,7 @@ export default function OrderPage(props) {
         {/* <Title>Today</Title> */}
         <InvitationSummary handleFilterChange={handleFilterChange} selectedCard={selectedCard}/>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={10}>
+          <Grid item xs={12} md={12}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-search">
                 Search by name or invoice code
@@ -189,11 +193,11 @@ export default function OrderPage(props) {
               />
             </FormControl>
           </Grid>
-          {/* <Grid item xs={12} md={4}>
+           <Grid item xs={12} md={8}>
             <FormControl fullWidth variant="standard">
               <TextField
                 select
-                label="Status Pembayaran"
+                label="Invitation Code"
                 value={filter}
                 onChange={handleFilterChange}
               >
@@ -204,11 +208,11 @@ export default function OrderPage(props) {
                 ))}
               </TextField>
             </FormControl>
-          </Grid> */}
-          <Grid item xs={6} md={1}>
+          </Grid> 
+          <Grid item xs={6} md={2}>
               <ExportToExcel apiData={loadedInvitationsExport} fileName={'Export-Pemesan'} />
           </Grid>
-           <Grid item xs={6} md={1}>
+           <Grid item xs={6} md={2}>
             <Button variant="outlined" sx={{ height: 55 }} fullWidth={true}  onClick={() => setIsOpen(true)} > <UploadIcon /> </Button>
           </Grid>
 
