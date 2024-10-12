@@ -131,6 +131,23 @@ export async function getInvoice(invoiceCode) {
   return order;
 }
 
+export async function getDetailIdOrder(id) {
+  const response = await fetch(`${API_URL}api/orders/detailid/${id}`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: bearerToken,
+    },
+  });
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message || "Something went wrong!");
+  }
+  const order = result.data.order;
+  return order;
+}
+
 export async function getAllTickets(params) {
   const response = await fetch(
     `${API_URL}api/tickets?` + new URLSearchParams(params), {
@@ -231,7 +248,6 @@ export async function getTicket(ticketCode) {
     },
   });
   const result = await response.json();
-  console.log(result);
   const tickets = result.data.tickets;
   console.log(tickets);
 

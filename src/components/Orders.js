@@ -17,7 +17,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatDate } from "../util/date";
-import { getTicketsByInvoiceCode } from "../util/api";
+import { getTicketsById } from "../util/api";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function paymentStatusComponent(paymentStatus) {
@@ -94,7 +94,10 @@ export default function Orders({ data, page, size }) {
     if (!selectedData) {
       return;
     }
-    const data = await getTicketsByInvoiceCode(selectedData.invoice_code);
+    // const data = await getTicketsByInvoiceCode(selectedData.invoice_code);
+    
+    const data = await getTicketsById(selectedData.id);
+    
     return data;
   };
 

@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Title from "../../components/Title";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { submitCheckIn, getTicket, getInvoice } from "../../util/api";
+import { submitCheckIn, getTicket, getDetailIdOrder } from "../../util/api";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useParams } from "react-router-dom";
 // import { useRouter } from "next/router";
@@ -62,7 +62,7 @@ export default function Result(props) {
 
   const fetchInvoice = async () => {
     if (loadedTickets) {
-      const invoiceCode = loadedTickets[0].invoice_code;
+      const orderid = loadedTickets[0].order_id;
       setOwnerName(loadedTickets[0].owner_name);
       const phone =
         loadedTickets[0].owner_phone &&
@@ -78,7 +78,7 @@ export default function Result(props) {
           : "-";
       setOwnerPhone(phone);
       setOwnerEmail(email);
-      const data = await getInvoice(invoiceCode);
+      const data = await getDetailIdOrder(orderid);
       return data;
     }
     return;
@@ -105,7 +105,6 @@ export default function Result(props) {
   function fetchDataInvoice() {
     fetchInvoice()
       .then((result) => {
-        console.log(result);
         if (result) {
           setSelectedInvoice(result);
         }
@@ -135,7 +134,7 @@ export default function Result(props) {
       const jumlahTicket = await submitCheckIn(payload);
       if (jumlahTicket > 0) {
         const alertText = "Pengunjung Berhasil Check-In!";
-        const notifString = `${alertText} ${selectedInvoice.invoice_code} - ${selectedInvoice.customer.name} - ${jumlahTicket} tiket`;
+        const notifString = `${alertText} ${selectedInvoice.invoice_code} - ${selectedInvoice.customer_name} - ${jumlahTicket} tiket`;
         // toast.success(notifString);
         MySwal.fire("Success", notifString, "success");
         // fetchData();
