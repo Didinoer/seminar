@@ -45,6 +45,7 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
   const [totalEMAIL, setTotalEMAIL] = useState(0);
   
   const [totalAd4, setTotalAd4] = useState(0);
+  const [totalMEDIA, setTotalMEDIA] = useState(0);
 
   const [totalDataToday, setTotalDataToday] = useState(0);
   const [totalNotCompleteToday, setTotalNotCompleteToday] = useState(0);
@@ -92,6 +93,7 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
         setTotalEMAIL(result.totalEMAIL);
         
         setTotalAd4(result.totalAd4);
+        setTotalMEDIA(result.totalMEDIA);
 
         setTotalNotComplete(result.totalNotComplete);
 
@@ -175,6 +177,9 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     {
       "name": "AD4",
       "count": totalAd4
+    },{
+      "name": "MEDIA",
+      "count": totalMEDIA
     },
   ];
 
