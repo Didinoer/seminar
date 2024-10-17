@@ -52,6 +52,18 @@ export default function TicketItem({value, checked, handleToggle, labelId}) {
               secondary={<Fragment>{value.ticket_code}</Fragment>}
             />
           </Grid>
+          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${value.ticket_code}`}
+                alt="QR Code"
+                style={{ width: '150px', height: '150px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+              />
+              <Typography variant="body1" style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                {value.ticket_code}
+              </Typography>
+            </div>
+          </Grid>
           {(value.check_in_status === "hadir" && (value.ticket_type === 'onsite' || value.ticket_type === 'vip')) &&  (
             <Grid item xs={12} md={4}>
               <Box
