@@ -23,7 +23,7 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
   const [totalInvitationToday, settotalInvitationToday] = useState(0);
   const [totalMD, setTotalMD] = useState(0);
   const [totalMRE, setTotalMRE] = useState(0);
-  const [totalLIPPO, setTotalLIPPO] = useState(0);
+  const [totalSIP, setTotalSIP] = useState(0);
   const [totalMRI, setTotalMRI] = useState(0);
   const [totalMEDIA, setTotalMEDIA] = useState(0);
   const [totalMR, setTotalMR] = useState(0);
@@ -47,7 +47,7 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
         settotalInvitationToday(result.totalInvitationToday);
         setTotalMD(result.totalMD);
         setTotalMRE(result.totalMRE);
-        setTotalLIPPO(result.totalLIPPO);
+        setTotalSIP(result.totalSIP);
         setTotalMRI(result.totalMRI);
         setTotalMEDIA(result.totalMEDIA);
         setTotalMR(result.totalMR);
@@ -68,8 +68,8 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
       "count": totalMRE
     },
     {
-      "name": "LIPPO",
-      "count": totalLIPPO
+      "name": "SIP",
+      "count": totalSIP
     },
     {
       "name": "MRI",
@@ -118,7 +118,7 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
         <SummaryCard label="MRE" count={totalMRE} color="black" />
       </Grid>
       <Grid item xs={4} md={2}>
-        <SummaryCard label="LIPPO" count={totalLIPPO} color="black" />
+        <SummaryCard label="SIP" count={totalSIP} color="black" />
       </Grid>
       <Grid item xs={4} md={2}>
         <SummaryCard label="MRI" count={totalMRI} color="black" />
