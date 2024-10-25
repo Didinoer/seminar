@@ -50,29 +50,71 @@ export default function OrderPage(props) {
       label: "Semua",
     },
     {
-      code: "MD",
-      label: "MD",
+      code: "MR",
+      label: "MR",
     },
     {
       code: "MRE",
       label: "MRE",
     },
     {
-      code: "LIPPO",
-      label: "LIPPO",
-    },
-    {
-      code: "MRI",
-      label: "MRI",
-    },
-    {
       code: "MEDIA",
       label: "MEDIA",
     },
     {
-      code: "MR",
-      label: "MR",
+      code: "SPEAKER",
+      label: "SPEAKER",
     },
+    {
+      code: "SIP",
+      label: "SIP",
+    },
+    {
+      code: "DPDL",
+      label: "DPDL",
+    },
+    {
+      code: "DPICF",
+      label: "DPICF",
+    },
+    {
+      code: "DPIDEA",
+      label: "DPIDEA",
+    },
+    {
+      code: "DPLIOC",
+      label: "DPLIOC",
+    },
+    {
+      code: "MD",
+      label: "MD",
+    },
+    {
+      code: "MDDANA",
+      label: "MDDANA",
+    },
+    {
+      code: "KD",
+      label: "KD",
+    },
+    {
+      code: "JOE",
+      label: "JOE",
+    },
+    {
+      code: "BM",
+      label: "BM",
+    },
+    {
+      code: "OTG",
+      label: "OTG",
+    },
+    {
+      code: "MLI",
+      label: "MLI",
+    },
+    
+    
   ];
   const [filter, setFilter] = useState(filterStatus[0].code);
 
