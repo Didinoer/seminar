@@ -68,6 +68,10 @@ export default function TicketPage(props) {
       code: "Platinum",
       label: "Platinum",
     },
+    {
+      code: "Invitation",
+      label: "Invitation",
+    },
   ];
   const [jenisTicket, setJenisTicket] = useState(filterJenisTicket[0].code);
 
