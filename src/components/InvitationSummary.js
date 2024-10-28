@@ -277,6 +277,11 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     totalOTG: 0,
     totalMLI: 0,
     totalSPEAKER: 0,
+    totalDTINV: 0,
+    totalDTVIP: 0,
+    totalFRD: 0,
+    totalMDVIP: 0,
+
   });
 
   const fetchData = async () => {
@@ -307,7 +312,12 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     { name: "BM", count: totals.totalBM },
     { name: "OTG", count: totals.totalOTG },
     { name: "MLI", count: totals.totalMLI },
+    { name: "DTINV", count: totals.totalDTINV },
+    { name: "DTVIP", count: totals.totalDTVIP },
+    { name: "FRD", count: totals.totalFRD },
+    { name: "MDVIP", count: totals.totalMDVIP },
   ];
+
 
   const midIndex = Math.ceil(data.length / 2);
   const leftData = data.slice(0, midIndex);
