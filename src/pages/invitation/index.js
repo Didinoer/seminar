@@ -113,6 +113,24 @@ export default function OrderPage(props) {
       code: "MLI",
       label: "MLI",
     },
+    {
+      code: "DTINV",
+      label: "DTINV",
+    },
+    {
+      code: "DTVIP",
+      label: "DTVIP",
+    },
+    {
+      code: "FRD",
+      label: "FRD",
+    },
+    {
+      code: "MDVIP",
+      label: "MDVIP",
+    },
+   
+
     
     
   ];
