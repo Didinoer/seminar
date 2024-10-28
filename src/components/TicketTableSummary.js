@@ -40,6 +40,12 @@ export default function TicketTableSummary() {
   const [totalTicketPlatinumSudahCheckIn, setTotalTicketPlatinumSudahCheckIn] =
       useState(0);
 
+  const [totalTicketInvitation, setTotalTicketInvitation] = useState(0);
+  const [totalTicketInvitationBelumCheckIn, setTotalTicketInvitationBelumCheckIn] =
+  useState(0);
+  const [totalTicketInvitationSudahCheckIn, setTotalTicketInvitationSudahCheckIn] =
+      useState(0);
+
   const fetchAllTotal = async () => {
     const data = await getAllTicketSummaryTotal();
     return data;
@@ -68,6 +74,10 @@ export default function TicketTableSummary() {
         setTotalTicketPlatinum(result.totalTicketPlatinum);
         setTotalTicketPlatinumBelumCheckIn(result.totalTicketPlatinumBelumCheckIn);
         setTotalTicketPlatinumSudahCheckIn(result.totalTicketPlatinumSudahCheckIn);
+
+        setTotalTicketInvitation(result.totalTicketInvitation);
+        setTotalTicketInvitationBelumCheckIn(result.totalTicketInvitationBelumCheckIn);
+        setTotalTicketInvitationSudahCheckIn(result.totalTicketInvitationSudahCheckIn);
       })
       .catch((err) => {
         console.log(err);
@@ -119,6 +129,17 @@ export default function TicketTableSummary() {
             <TableCell>{totalTicketPlatinum}</TableCell>
             <TableCell>{totalTicketPlatinumSudahCheckIn}</TableCell>
             <TableCell>{totalTicketPlatinumBelumCheckIn}</TableCell>
+          </TableRow>
+          <TableRow
+            sx={{
+              "&:last-child td, &:last-child th": { border: 0 },
+            }}
+          >
+
+            <TableCell>Invitation</TableCell>
+            <TableCell>{totalTicketInvitation}</TableCell>
+            <TableCell>{totalTicketInvitationSudahCheckIn}</TableCell>
+            <TableCell>{totalTicketInvitationBelumCheckIn}</TableCell>
           </TableRow>
           <TableRow
             sx={{
