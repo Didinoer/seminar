@@ -129,6 +129,10 @@ export default function OrderPage(props) {
       code: "MDVIP",
       label: "MDVIP",
     },
+    {
+      code: "ALCOR",
+      label: "ALCOR",
+    },
    
 
     
