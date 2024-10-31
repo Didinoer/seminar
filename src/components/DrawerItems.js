@@ -31,7 +31,7 @@ export default function DrawerItems() {
 
   return (
     <React.Fragment>
-      { session.role !== 'finance' && 
+      { session.role !== 'finance' || session.role !== 'crew' && 
       <Link to={"/orders"} className="text-link">
         <ListItemButton selected={location.pathname === "/orders"}>
           <ListItemIcon>
@@ -61,7 +61,7 @@ export default function DrawerItems() {
         </ListItemButton>
       </Link>
       }
-      { (session.role  === 'admin' ||  session.role === 'officer') && 
+      { (session.role  === 'admin' ||  session.role === 'officer' || session.role === 'crew') && 
       <Link to={"/tickets"} className="text-link">
         <ListItemButton selected={location.pathname === "/tickets"}>
           <ListItemIcon>
@@ -71,7 +71,7 @@ export default function DrawerItems() {
         </ListItemButton>
       </Link>
       }
-      { (session.role  === 'admin' ||  session.role === 'officer') && 
+      { (session.role  === 'admin' ||  session.role === 'officer' || session.role === 'crew') && 
       <Link to={"/scanner"} className="text-link">
         <ListItemButton selected={location.pathname === "/scanner"}>
           <ListItemIcon>
