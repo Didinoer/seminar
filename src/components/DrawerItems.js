@@ -31,7 +31,7 @@ export default function DrawerItems() {
 
   return (
     <React.Fragment>
-      { session.role !== 'finance' && session.role !== 'crew' && 
+     { session.role !== 'finance' && session.role !== 'crew' && 
         <Link to={"/orders"} className="text-link">
           <ListItemButton selected={location.pathname === "/orders"}>
             <ListItemIcon>
