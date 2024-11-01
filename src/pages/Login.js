@@ -63,7 +63,7 @@ export default function LoginPage() {
         localStorage.setItem("user", JSON.stringify(result.user));
         toast.success("Login Berhasil");
 
-        if (result.user.role === "finance") {
+         if (result.user.role === "finance") {
           navigate("/approval", { replace: true });
         }else if (result.user.role === "crew") {
           navigate("/scanner", { replace: true });
