@@ -31,15 +31,15 @@ export default function DrawerItems() {
 
   return (
     <React.Fragment>
-      { session.role !== 'finance' || session.role !== 'crew' && 
-      <Link to={"/orders"} className="text-link">
-        <ListItemButton selected={location.pathname === "/orders"}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Orders" />
-        </ListItemButton>
-      </Link>
+     { session.role !== 'finance' && session.role !== 'crew' && 
+        <Link to={"/orders"} className="text-link">
+          <ListItemButton selected={location.pathname === "/orders"}>
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Orders" />
+          </ListItemButton>
+        </Link>
       }
       { (session.role  === 'finance' ||  session.role  === 'admin')  && 
       <Link to={"/approval"} className="text-link">
@@ -61,7 +61,7 @@ export default function DrawerItems() {
         </ListItemButton>
       </Link>
       }
-      { (session.role  === 'admin' ||  session.role === 'officer' || session.role === 'crew') && 
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/tickets"} className="text-link">
         <ListItemButton selected={location.pathname === "/tickets"}>
           <ListItemIcon>
