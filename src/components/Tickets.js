@@ -17,10 +17,10 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import TicketList from "./TicketList";
 import { formatDate } from "../util/date";
-import { getTicketsById, getTicketsByIdTicket, submitCheckIn } from "../util/api";
+import { getTicketsByInvoiceCode, submitCheckIn } from "../util/api";
 import { toast } from "react-toastify";
+
 import Chip from "@mui/material/Chip";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function checkInStatusComponent(checkInObject) {
   if (checkInObject) {
@@ -36,14 +36,6 @@ function checkInStatusComponent(checkInObject) {
       </Typography>
     );
   }
-}
-
-
-
-function handleWhatsAppMessage(phone) {
-  const message = encodeURIComponent("");
-  const whatsappLink = `https://wa.me/${phone}?text=${message}`;
-  window.open(whatsappLink, '_blank');
 }
 
 function ticketTypeComponent(ticketType) {
@@ -90,8 +82,6 @@ function statusCheckIn(status) {
   );
 }
 
-
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -124,7 +114,6 @@ export default function Tickets({ data, page, size, fetchData }) {
     if (prevInvoiceCode === invoiceCode) {
       fetchTickets();
     }
-    setChecked([]);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
@@ -175,7 +164,7 @@ export default function Tickets({ data, page, size, fetchData }) {
     if (!selectedTicketId) {
       return;
     }
-    const data = await getTicketsByIdTicket(selectedTicketId);
+    const data = await getTicketsByInvoiceCode(selectedTicketId);
     return data;
   };
 
@@ -202,7 +191,6 @@ export default function Tickets({ data, page, size, fetchData }) {
             <TableRow>
               <TableCell>No</TableCell>
               <TableCell>Nama</TableCell>
-              <TableCell>No HP</TableCell>
               <TableCell>Jenis Ticket</TableCell>
               {/* <TableCell>Jumlah Ticket</TableCell> */}
               <TableCell>ID Reference</TableCell>
@@ -215,43 +203,30 @@ export default function Tickets({ data, page, size, fetchData }) {
           <TableBody>
             {data.length > 0 ? (
               data.map((row, idx) => (
-                <TableRow key={`${row.id}-${idx}`}>
+                <TableRow key={row.id}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                   <TableCell>{row.owner_name}</TableCell>
                   <TableCell>
-                    <Chip
-                      label={
-                        <span style={{ display: 'flex', alignItems: 'center' }}>
-                          <WhatsAppIcon sx={{ marginRight: 1 }} />
-                          {row.owner_phone}
-                        </span>
-                      }
-                      sx={{
-                        backgroundColor: '#25D366',
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: '#20b358',
-                        },
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => handleWhatsAppMessage(row.owner_phone)}
-                    />
-                  </TableCell>
-                  <TableCell>
                     {ticketTypeComponent(row.ticket_jenis === 'VIP' ? 'Gold' : row.ticket_jenis)}
                   </TableCell>
+                  {/* <TableCell>
+                    {row.totalSudahCheckIn}/{row.totalTicket}
+                  </TableCell> */}
                   <TableCell>{row.invoice_code}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
                   <TableCell>
                     {statusCheckIn(row.check_in_status)}
                   </TableCell>
-                  <TableCell>{row.check_in_time}</TableCell>
+                  <TableCell>
+                    {/* {checkInStatusComponent(row.latestCheckIn)} */}
+                    {row.check_in_time}
+                  </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button
                         variant="outlined"
                         onClick={() =>
-                          handleOpen(row.order_id, row.owner_name, row.id_ticket)
+                          handleOpen(row.invoice_code, row.owner_name, row.id_ticket)
                         }
                       >
                         Check-In
@@ -263,7 +238,10 @@ export default function Tickets({ data, page, size, fetchData }) {
             ) : (
               <TableRow>
                 <TableCell colSpan={10}>
-                  <Grid container>
+                  <Grid
+                    container
+                    // my={2}
+                  >
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Typography variant="button" color="red">
@@ -293,7 +271,7 @@ export default function Tickets({ data, page, size, fetchData }) {
               }}
             >
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Ticket ID {selectedInvoiceCode} - {selectedOwnerName}
+                Invoice {selectedInvoiceCode} - {selectedOwnerName}
               </Typography>
               <IconButton aria-label="delete" onClick={handleClose}>
                 <CloseIcon />

@@ -65,6 +65,8 @@ export default function LoginPage() {
 
         if (result.user.role === "finance") {
           navigate("/approval", { replace: true });
+        }else if (result.user.role === "crew") {
+          navigate("/scanner", { replace: true });
         } else {
           navigate("/orders", { replace: true });
         }

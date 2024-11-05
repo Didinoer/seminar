@@ -133,6 +133,18 @@ export default function OrderPage(props) {
       code: "ALCOR",
       label: "ALCOR",
     },
+    {
+      code: "JO",
+      label: "JO",
+    },
+    {
+      code: "RONNYLANNY",
+      label: "RONNYLANNY",
+    },
+    {
+      code: "ALCORVIP",
+      label: "ALCORVIP",
+    },
    
 
     

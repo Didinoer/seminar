@@ -61,7 +61,7 @@ export default function DrawerItems() {
         </ListItemButton>
       </Link>
       }
-      { (session.role  === 'admin' ||  session.role === 'officer' || session.role === 'crew') && 
+      { (session.role  === 'admin' ||  session.role === 'officer') && 
       <Link to={"/tickets"} className="text-link">
         <ListItemButton selected={location.pathname === "/tickets"}>
           <ListItemIcon>
