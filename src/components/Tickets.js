@@ -21,6 +21,7 @@ import { getTicketsById, getTicketsByIdTicket, submitCheckIn } from "../util/api
 import { toast } from "react-toastify";
 import Chip from "@mui/material/Chip";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import TextField from "@mui/material/TextField";
 
 function checkInStatusComponent(checkInObject) {
   if (checkInObject) {
@@ -113,9 +114,16 @@ export default function Tickets({ data, page, size, fetchData }) {
   const [selectedOwnerName, setSelectedOwnerName] = useState();
   const [selectedTicketArray, setSelectedTicketArray] = useState();
   const [checked, setChecked] = useState([]);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [editedPhone, setEditedPhone] = useState("");
+  const [selectedEditName, setSelectedEditName] = useState("");
+  const [selectedEditPhone, setSelectedEditPhone] = useState("");
+  const [selectedOrderId, setSelectedOrderId] = useState("");
+  // const [selectedTicketId, setSelectedTicketId] = useState("");
 
   const [selectedTicketId, setSelectedTicketId] = useState();
 
+  const bearerToken = "Bearer " + localStorage.getItem("token");
   const handleOpen = (invoiceCode, ownerName, ticketId) => {
     setSelectedOwnerName(ownerName);
     const prevInvoiceCode = selectedInvoiceCode;
@@ -177,6 +185,56 @@ export default function Tickets({ data, page, size, fetchData }) {
     }
     const data = await getTicketsByIdTicket(selectedTicketId);
     return data;
+  };
+
+  const handleEditPhoneNumber = async () => {
+    console.log(selectedEditName, selectedEditPhone, selectedTicketId, selectedOrderId);
+    try {
+      const response = await fetch("https://inspirafest.id/server/api/tickets/editphone", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: bearerToken,
+        },
+        body: JSON.stringify({
+          phone : selectedEditPhone,
+          ticketid :selectedTicketId,
+          orderid : selectedOrderId, // assuming you’re using `selectedTicketId` to identify the user
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        console.log(result);
+        toast.success("Nomor HP berhasil diperbarui!");
+        handleEditClose();
+        fetchData(); // Refresh data after edit
+      } else {
+        toast.error(result.message || "Gagal memperbarui nomor HP.");
+      }
+    } catch (error) {
+      console.error("Error updating phone number:", error);
+      toast.error("Terjadi kesalahan, coba lagi.");
+    }
+  };
+
+  const handleEditOpen = (name, phone, idticket, orderid) => {
+    setSelectedEditName(name);
+    setSelectedEditPhone(phone);
+    setSelectedTicketId(idticket);
+    setSelectedOrderId(orderid);
+    setOpenEdit(true);
+  };
+
+  const handleEditClose = () => {
+    setOpenEdit(false);
+  };
+
+  const handleEditSubmit = () => {
+    // Here you would make an API call to update the phone number
+    console.log(`Updated phone number for ${selectedEditName}: ${editedPhone}`);
+    handleEditClose();
+    fetchData(); // To refresh the data
   };
 
   function fetchTickets() {
@@ -256,6 +314,9 @@ export default function Tickets({ data, page, size, fetchData }) {
                       >
                         Check-In
                       </Button>
+                      {/* <Button variant="outlined" color="primary" onClick={() => handleEditOpen(row.owner_name,row.owner_phone,row.id_ticket,row.order_id)}>
+                        Edit Phone
+                      </Button> */}
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -322,7 +383,32 @@ export default function Tickets({ data, page, size, fetchData }) {
             </Box>
           </Box>
         </Modal>
+        
       )}
+      <Modal open={openEdit} onClose={handleEditClose}>
+        <Box sx={style}>
+          <Typography variant="h6" component="h2">
+            Edit Phone Number
+          </Typography>
+          <Typography variant="body1">Name: {selectedEditName}</Typography>
+          <TextField
+            label="Phone Number"
+            variant="outlined"
+            value={selectedEditPhone}
+            onChange={(e) => setSelectedEditPhone(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleEditPhoneNumber}>
+              Save
+            </Button>
+            <Button variant="outlined" onClick={handleEditClose} sx={{ ml: 2 }}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Fragment>
   );
 }

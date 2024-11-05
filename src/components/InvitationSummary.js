@@ -282,6 +282,10 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     totalFRD: 0,
     totalMDVIP: 0,
     totalALCOR: 0,
+    totalJO: 0,
+    totalRONNYLANNY: 0,
+    totalALCORVIP: 0,
+
 
     // ALCOR
 
@@ -320,6 +324,9 @@ export default function OrderSummary({ handleFilterChange, selectedCard }) {
     { name: "FRD", count: totals.totalFRD },
     { name: "MDVIP", count: totals.totalMDVIP },
     { name: "ALCOR", count: totals.totalALCOR },
+    { name: "JO", count: totals.totalJO },
+    { name: "RONNYLANNY", count: totals.totalRONNYLANNY },
+    { name: "ALCORVIP", count: totals.totalALCORVIP },
   ];
 
 
