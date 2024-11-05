@@ -17,10 +17,11 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import TicketList from "./TicketList";
 import { formatDate } from "../util/date";
-import { getTicketsByInvoiceCode, submitCheckIn } from "../util/api";
+import { getTicketsById, getTicketsByIdTicket, submitCheckIn } from "../util/api";
 import { toast } from "react-toastify";
-
 import Chip from "@mui/material/Chip";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import TextField from "@mui/material/TextField";
 
 function checkInStatusComponent(checkInObject) {
   if (checkInObject) {
@@ -36,6 +37,14 @@ function checkInStatusComponent(checkInObject) {
       </Typography>
     );
   }
+}
+
+
+
+function handleWhatsAppMessage(phone) {
+  const message = encodeURIComponent("");
+  const whatsappLink = `https://wa.me/${phone}?text=${message}`;
+  window.open(whatsappLink, '_blank');
 }
 
 function ticketTypeComponent(ticketType) {
@@ -82,6 +91,8 @@ function statusCheckIn(status) {
   );
 }
 
+
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -103,9 +114,16 @@ export default function Tickets({ data, page, size, fetchData }) {
   const [selectedOwnerName, setSelectedOwnerName] = useState();
   const [selectedTicketArray, setSelectedTicketArray] = useState();
   const [checked, setChecked] = useState([]);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [editedPhone, setEditedPhone] = useState("");
+  const [selectedEditName, setSelectedEditName] = useState("");
+  const [selectedEditPhone, setSelectedEditPhone] = useState("");
+  const [selectedOrderId, setSelectedOrderId] = useState("");
+  // const [selectedTicketId, setSelectedTicketId] = useState("");
 
   const [selectedTicketId, setSelectedTicketId] = useState();
 
+  const bearerToken = "Bearer " + localStorage.getItem("token");
   const handleOpen = (invoiceCode, ownerName, ticketId) => {
     setSelectedOwnerName(ownerName);
     const prevInvoiceCode = selectedInvoiceCode;
@@ -114,6 +132,7 @@ export default function Tickets({ data, page, size, fetchData }) {
     if (prevInvoiceCode === invoiceCode) {
       fetchTickets();
     }
+    setChecked([]);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
@@ -164,8 +183,58 @@ export default function Tickets({ data, page, size, fetchData }) {
     if (!selectedTicketId) {
       return;
     }
-    const data = await getTicketsByInvoiceCode(selectedTicketId);
+    const data = await getTicketsByIdTicket(selectedTicketId);
     return data;
+  };
+
+  const handleEditPhoneNumber = async () => {
+    console.log(selectedEditName, selectedEditPhone, selectedTicketId, selectedOrderId);
+    try {
+      const response = await fetch("https://inspirafest.id/server/api/tickets/editphone", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: bearerToken,
+        },
+        body: JSON.stringify({
+          phone : selectedEditPhone,
+          ticketid :selectedTicketId,
+          orderid : selectedOrderId, // assuming you’re using `selectedTicketId` to identify the user
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        console.log(result);
+        toast.success("Nomor HP berhasil diperbarui!");
+        handleEditClose();
+        fetchData(); // Refresh data after edit
+      } else {
+        toast.error(result.message || "Gagal memperbarui nomor HP.");
+      }
+    } catch (error) {
+      console.error("Error updating phone number:", error);
+      toast.error("Terjadi kesalahan, coba lagi.");
+    }
+  };
+
+  const handleEditOpen = (name, phone, idticket, orderid) => {
+    setSelectedEditName(name);
+    setSelectedEditPhone(phone);
+    setSelectedTicketId(idticket);
+    setSelectedOrderId(orderid);
+    setOpenEdit(true);
+  };
+
+  const handleEditClose = () => {
+    setOpenEdit(false);
+  };
+
+  const handleEditSubmit = () => {
+    // Here you would make an API call to update the phone number
+    console.log(`Updated phone number for ${selectedEditName}: ${editedPhone}`);
+    handleEditClose();
+    fetchData(); // To refresh the data
   };
 
   function fetchTickets() {
@@ -191,6 +260,7 @@ export default function Tickets({ data, page, size, fetchData }) {
             <TableRow>
               <TableCell>No</TableCell>
               <TableCell>Nama</TableCell>
+              <TableCell>No HP</TableCell>
               <TableCell>Jenis Ticket</TableCell>
               {/* <TableCell>Jumlah Ticket</TableCell> */}
               <TableCell>ID Reference</TableCell>
@@ -203,34 +273,50 @@ export default function Tickets({ data, page, size, fetchData }) {
           <TableBody>
             {data.length > 0 ? (
               data.map((row, idx) => (
-                <TableRow key={row.id}>
+                <TableRow key={`${row.id}-${idx}`}>
                   <TableCell>{size * (page - 1) + (idx + 1)}</TableCell>
                   <TableCell>{row.owner_name}</TableCell>
                   <TableCell>
+                    <Chip
+                      label={
+                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                          <WhatsAppIcon sx={{ marginRight: 1 }} />
+                          {row.owner_phone}
+                        </span>
+                      }
+                      sx={{
+                        backgroundColor: '#25D366',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#20b358',
+                        },
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => handleWhatsAppMessage(row.owner_phone)}
+                    />
+                  </TableCell>
+                  <TableCell>
                     {ticketTypeComponent(row.ticket_jenis === 'VIP' ? 'Gold' : row.ticket_jenis)}
                   </TableCell>
-                  {/* <TableCell>
-                    {row.totalSudahCheckIn}/{row.totalTicket}
-                  </TableCell> */}
                   <TableCell>{row.invoice_code}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
                   <TableCell>
                     {statusCheckIn(row.check_in_status)}
                   </TableCell>
-                  <TableCell>
-                    {/* {checkInStatusComponent(row.latestCheckIn)} */}
-                    {row.check_in_time}
-                  </TableCell>
+                  <TableCell>{row.check_in_time}</TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button
                         variant="outlined"
                         onClick={() =>
-                          handleOpen(row.invoice_code, row.owner_name, row.id_ticket)
+                          handleOpen(row.order_id, row.owner_name, row.id_ticket)
                         }
                       >
                         Check-In
                       </Button>
+                      {/* <Button variant="outlined" color="primary" onClick={() => handleEditOpen(row.owner_name,row.owner_phone,row.id_ticket,row.order_id)}>
+                        Edit Phone
+                      </Button> */}
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -238,10 +324,7 @@ export default function Tickets({ data, page, size, fetchData }) {
             ) : (
               <TableRow>
                 <TableCell colSpan={10}>
-                  <Grid
-                    container
-                    // my={2}
-                  >
+                  <Grid container>
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Typography variant="button" color="red">
@@ -271,7 +354,7 @@ export default function Tickets({ data, page, size, fetchData }) {
               }}
             >
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Invoice {selectedInvoiceCode} - {selectedOwnerName}
+                Ticket ID {selectedInvoiceCode} - {selectedOwnerName}
               </Typography>
               <IconButton aria-label="delete" onClick={handleClose}>
                 <CloseIcon />
@@ -300,7 +383,32 @@ export default function Tickets({ data, page, size, fetchData }) {
             </Box>
           </Box>
         </Modal>
+        
       )}
+      <Modal open={openEdit} onClose={handleEditClose}>
+        <Box sx={style}>
+          <Typography variant="h6" component="h2">
+            Edit Phone Number
+          </Typography>
+          <Typography variant="body1">Name: {selectedEditName}</Typography>
+          <TextField
+            label="Phone Number"
+            variant="outlined"
+            value={selectedEditPhone}
+            onChange={(e) => setSelectedEditPhone(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleEditPhoneNumber}>
+              Save
+            </Button>
+            <Button variant="outlined" onClick={handleEditClose} sx={{ ml: 2 }}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Fragment>
   );
 }

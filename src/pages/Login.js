@@ -67,7 +67,7 @@ export default function LoginPage() {
           navigate("/approval", { replace: true });
         }else if (result.user.role === "crew") {
           navigate("/scanner", { replace: true });
-        } else {
+        }else {
           navigate("/orders", { replace: true });
         }
 
