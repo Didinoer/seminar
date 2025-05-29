@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useEffect } from "react";
-// import { useRouter } from "next/router";
-// import { getSession, signIn } from "next-auth/react";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -107,9 +105,9 @@ export default function LoginPage() {
             alignItems: "center",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
-          </Avatar> */}
+          </Avatar> 
           <Typography component="h1" variant="h5">
             Login
           </Typography>

@@ -12,6 +12,7 @@ import Referral from "./pages/referral/index";
 import Notif from "./pages/notif/index";
 import Voucher from "./pages/voucher/index";
 import InvitationCode from "./pages/invitationcode/index";
+import Pengajuan from "./pages/pengajuan/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,40 +21,41 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Test Dev
 
 function App() {
-  return (
-    <div>
-      <Router basename="/event">
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/orders" element={<Order />} />
-          <Route path="/tickets" element={<Ticket />} />
-          <Route path="/scanner" element={<Scanner />} />
-          <Route path="/result/:ticketCode" element={<Result />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/approval" element={<Approval />} />
-          <Route path="/invitations" element={<Invitation />} />
-          <Route path="/partnerships" element={<Partnership />} />
-          <Route path="/referral" element={<Referral />} />
-          <Route path="/notif" element={<Notif />} />
-          <Route path="/voucher" element={<Voucher />} />
-          <Route path="/invitationcode" element={<InvitationCode />} />
-        </Routes>
-      </Router>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-    </div>
-  );
+	return (
+		<div>
+			<Router basename="/event">
+				<Routes>
+					<Route path="/" element={<Login />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/orders" element={<Order />} />
+					<Route path="/tickets" element={<Ticket />} />
+					<Route path="/scanner" element={<Scanner />} />
+					<Route path="/result/:ticketCode" element={<Result />} />
+					<Route path="/history" element={<History />} />
+					<Route path="/approval" element={<Approval />} />
+					<Route path="/invitations" element={<Invitation />} />
+					{/* <Route path="/partnerships" element={<Partnership />} />
+          <Route path="/referral" element={<Referral />} /> */}
+					{/* <Route path="/notif" element={<Notif />} /> */}
+					<Route path="/voucher" element={<Voucher />} />
+					<Route path="/invitationcode" element={<InvitationCode />} />
+					{/* <Route path="/pengajuan" element={<Pengajuan />} /> */}
+				</Routes>
+			</Router>
+			<ToastContainer
+				position="top-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
+		</div>
+	);
 }
 
 export default App;
