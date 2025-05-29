@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8000/";
+// const API_URL = "http://localhost:8000/";
+const API_URL = "https://4f7b-2001-448a-2095-1130-2910-105e-83b-aef6.ngrok-free.app"
 //const API_URL = "http://192.168.55.12:80/";
 // const API_URL = "https://Eventnia.id/server/";
 const bearerToken = "Bearer " + localStorage.getItem("token");
