@@ -1,6 +1,6 @@
 {
   "name": "event",
-  "homepage": "/event",
+  "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
