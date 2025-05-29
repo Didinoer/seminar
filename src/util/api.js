@@ -13,6 +13,7 @@ export async function login(credentials) {
 		body: JSON.stringify(credentials),
 		headers: {
 			"Content-Type": "application/json",
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 
@@ -34,6 +35,7 @@ export async function logout() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 
@@ -58,6 +60,7 @@ export async function checkToken() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 
@@ -82,6 +85,7 @@ export async function getAllOrders(params) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -102,6 +106,7 @@ export async function getAllOrderTotal() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -121,6 +126,7 @@ export async function getInvoice(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -140,6 +146,7 @@ export async function getDetailIdOrder(id) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -159,6 +166,7 @@ export async function getAllTickets(params) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -182,6 +190,7 @@ export async function getAllTickets2(params) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -203,6 +212,7 @@ export async function getAllTicketTotal() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -218,6 +228,7 @@ export async function getAllTicketSummaryTotal() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -235,6 +246,7 @@ export async function getAllHistories(params) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -251,6 +263,7 @@ export async function getTicket(ticketCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -268,6 +281,7 @@ export async function submitCheckIn(ticketArray) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -287,6 +301,7 @@ export async function getTicketsByInvoiceCode(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -310,6 +325,7 @@ export async function getTicketsById(invoiceCode) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -334,6 +350,7 @@ export async function getTicketsByIdTicket(idTicket) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -359,6 +376,7 @@ export async function getAllApproval(params) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -378,6 +396,7 @@ export async function getAllApprovalTotal() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -419,6 +438,7 @@ export async function getAllInvitation(params) {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 				Authorization: bearerToken,
+				'ngrok-skip-browser-warning' : 'true',
 			},
 		}
 	);
@@ -439,6 +459,7 @@ export async function getAllInvitationTotal() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -458,6 +479,7 @@ export async function getAllInvitationTotal2() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -480,6 +502,7 @@ export async function submitApprove(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -584,6 +607,7 @@ export async function getAllVoucher() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -607,6 +631,7 @@ export async function submitEditVoucher(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -650,6 +675,7 @@ export async function submitEditInvitationCode(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -673,6 +699,7 @@ export async function submitAddInvitationCode(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -696,6 +723,7 @@ export async function submitAddVoucher(invoiceCode) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
@@ -771,6 +799,7 @@ export async function importExcel(array) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true',
 		},
 	});
 	const result = await response.json();
