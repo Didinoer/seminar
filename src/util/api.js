@@ -626,6 +626,7 @@ export async function getAllInvitationCode() {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 			Authorization: bearerToken,
+			'ngrok-skip-browser-warning' : 'true'
 		},
 	});
 	const result = await response.json();
